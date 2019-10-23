@@ -4,241 +4,73 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>权限管理</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+  <title>菜单</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
   <script src="../layui/layui.js"></script>
-  <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>          
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body>
-
- 
-<table class="layui-hide" id="test" lay-filter="test"></table>
-
-	<script type="text/html" id="toolbarDemo">
-  <div class="layui-btn-container" style="padding-left:20px;">
-    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData"><i class="layui-icon layui-icon-add-1"></i>新增部门 </button>
-  </div>
-	
-</script>
-<script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">管理权限</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-
+<body style="margin:0;padding:0;">         
+<table class="layui-hide" id="test" lay-filter="test"></table>         
+<style>
+.layui-table, .layui-table-view {
+    margin: 0px 0;
+}
+</style>
 <script>
-layui.use(['table','laydate','form','tree', 'util'], function(){
+layui.use('table', function(){
   var table = layui.table;
-  var laydate = layui.laydate;
-  var form = layui.form;
-  var tree = layui.tree
-  ,layer = layui.layer
-  ,util = layui.util
-//模拟数据
-  ,data = [{
-    title: 'ALL'
-    ,id: 2
-    ,spread: true
-    ,children: [{
-      title: '系统信息管理'
-      ,id: 5
-      ,spread: true
-      ,children: [{
-        title: '员工管理'
-        ,id: 11
-        ,spread: true
-        ,children: [{
-            title: '新增'
-            ,id: 11
-          },{
-        	  title:'删除'
-        	  ,id:22
-          }]
-      },{
-          title: '部门管理'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
-                },{
-              	  title:'删除'
-              	  ,id:22
-                }]
-            }]
-    },{
-        title: '采购管理'
-            ,id: 5
-            ,spread: true
-            ,children: [{
-              title: '采购申请'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
-                },{
-              	  title:'删除'
-              	  ,id:22
-                }]
-            },{
-                title: '采购计划'
-                    ,id: 11
-                    ,spread: true
-                    ,children: [{
-                        title: '新增'
-                        ,id: 11
-                      },{
-                    	  title:'删除'
-                    	  ,id:22
-                      }]
-                  }]
-          }]
-  }]
   
-  
-	//基本演示
-  tree.render({
-    elem: '#test12'
-    ,data: data
-    ,showCheckbox: true  //是否显示复选框
-    ,id: 'demoId1'
-    ,isJump: true //是否允许点击节点时弹出新窗口跳转
-    ,click: function(obj){
-      var data = obj.data;  //获取当前点击的节点数据
-      layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
-    }
-  });
   table.render({
     elem: '#test'
-    ,url:'json/demo1.json'
-    ,toolbar: '#toolbarDemo'
-    ,title: '领料单'
+	,url: '../queryMenu.do'//数据接口
+    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
     ,cols: [[
-      {type: 'checkbox', fixed: 'left'}
-      ,{field:'id', title:'部门编号', unresize:true}
-      ,{field:'username', title:'部门名称',unresize:true}
-      ,{field:'sex', title:'描述', unresize:true}
-      ,{
-		fixed: 'right', align:'center', toolbar: '#barDemo',unresize:true
-      }
+      {field:'menuId', title: '菜单ID', align:'center'}
+      ,{field:'menuName', title: '菜单名称',edit: 'text',templet:function(d){
+    	  var left = (d.menuType-1)*40;
+    	  
+    	  var num = "";
+    	  if(d.menuType == 1){
+    		  num = "bold";
+    	  }else{
+    		  num = "normal";
+    	  }
+    	  return '<span style="margin-left:'+left+'px;font-weight:'+num+';">'+d.menuName+'</span>'
+      }}
+      ,{field:'menuParent',title: '父级菜单ID',align:'center'}
+      ,{field:'menuIcon',title: '菜单Icon',edit: 'text',align:'center'}
+      ,{field:'menuType',title: '菜单类型',align:'center',templet:function(d){
+    	  switch(d.menuType){
+    	  	case 1: 
+    	  		return '<span class="layui-badge layui-bg-blue">一级目录</span>'
+    	  	case 2:
+    	  		return '<span class="layui-badge">二级目录</span>'
+    	  }
+      }}
+      ,{field:'menuType',title: '类型',edit: 'text',align:'center',hide:true}
+      ,{field:'menuURL',edit: 'text',title: '菜单URL',align:'center'}
     ]]
-    ,page: true
+
   });
   
-  
-//监听工具条
-  table.on('tool(test)', function(obj){
-    var data = obj.data;
-    if(obj.event === 'detail'){
-    	layer.open({
-			title : '权限管理',//标题
-			type : 1,//样式
-			shade: 0,
-			area: ['350px', '500px'],
-			content :$("#test12"),
-			
-			success : function(layero) {
-				var mask = $(".layui-layer-shade");
-				mask.appendTo(layero.parent());
-				//其中：layero是弹层的DOM对象
-			},
-			end : function() {
-				
+  //监听单元格编辑
+  table.on('edit(test)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+	  $.ajax({
+		  url:'../updateMenu.do',
+		  data:obj.data,
+		  type:'post',
+		  dataType:'html',
+		  success:function(data){
+			if(data == '1'){
+				layer.msg('修改成功');
+			}else{
+				layer.msg('修改失败');
 			}
-		});
-		
-		
-	} else if(obj.event === 'del'){
-      layer.confirm('确认删除该部门吗', function(index){
-        obj.del();
-        layer.close(index);
-      });
-    } else if(obj.event === 'edit'){
-    	
-    	//formTest 即 class="layui-form" 所在元素对应的 lay-filter="" 对应的值
-    	form.val("formAuthority", {
-    	  "id": "21321321" // "name": "value"
-    	  ,"name": "销售部门"
-    	  ,"des": "我爱layui"
-    	})
-    	
-    	var index = layer.open({
-			title : '编辑部门',//标题
-			type : 1,//样式
-			shade: 0,
-			offset: ['15%', '35%'],//设置位移
-			btn: ['确认', '取消'],
-			yes: function(index, layero){
-				layer.close(index);
-				layer.msg('编辑成功');
-			}
-			,btn2: function(index, layero){
-				  layer.close(index);
-			},
-			content :$("#branch"),
-		});
-    }
-  });
-  
-  
-//工具栏事件
-	table.on('toolbar(test)', function(obj) {
-		var checkStatus = table.checkStatus(obj.config.id);
-		switch (obj.event) {
-		case 'getCheckData':
-            $("#formIdOne")[0].reset();
-			var index = layer.open({
-				title : '新增部门',//标题
-				type : 1,//样式
-				shade: 0,
-				offset: ['15%', '35%'],//设置位移
-				btn: ['确认', '取消'],
-				yes: function(index, layero){
-					layer.close(index);
-					layer.msg('新增成功');
-				}
-				,btn2: function(index, layero){
-					  layer.close(index);
-				},
-				
-				content :$("#branch"),
-			});
-			break;
-		};
+		  }
+	  });
 	});
-  
 });
 </script>
-
-		<div id="test12" class="demo-tree-more" style="display:none;"></div>
-
-		<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
-		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">
-			<div class="layui-input-inline">
-				<label style="margin:0 10px 0 20px;font-size:13px;">部门编号</label>
-				<div class="layui-input-inline">
-      				<input type="text" name="id" lay-verify="required" disabled placeholder="自动生成" autocomplete="off" class="layui-input">
-    			</div>
-			</div>
-			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">部门名称</label>
-				<div class="layui-input-inline">
-      				<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-    			</div>
-			</div>
-			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">部门描述</label>
-				<div class="layui-input-inline">
-      				<textarea name="des" required lay-verify="required" cols="25px" placeholder="请输入部门描述" class="layui-textarea"></textarea>
-    			</div>
-			</div>
-			</form>
-		</div>
-
 </body>
 </html>
