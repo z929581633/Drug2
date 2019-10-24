@@ -20,12 +20,12 @@
 
 	<script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container" style="padding-left:20px;">
-    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData"><i class="layui-icon layui-icon-add-1"></i>新增部门 </button>
+    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData"><i class="layui-icon layui-icon-add-1"></i>新增员工 </button>
   </div>
 	
 </script>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">管理权限</a>
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">权限管理</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -114,18 +114,23 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
     }
   });
   table.render({
-    elem: '#test'
-    ,url:'json/demo1.json'
-    ,toolbar: '#toolbarDemo'
-    ,title: '领料单'
-    ,cols: [[
-      {type: 'checkbox', fixed: 'left'}
-      ,{field:'id', title:'部门编号', unresize:true}
-      ,{field:'username', title:'部门名称',unresize:true}
-      ,{field:'sex', title:'描述', unresize:true}
-      ,{
-		fixed: 'right', align:'center', toolbar: '#barDemo',unresize:true
-      }
+    elem: '#test',
+    //url:'json/demo1.json',
+    url:'../getEmployee.do',
+    toolbar: '#toolbarDemo',
+    title: '员工管理' ,
+    cols: [[
+      {type: 'checkbox', fixed: 'left'},
+      {field:'empId', title:'员工编号', unresize:true, width:'7%'},
+      {field:'empName', title:'员工姓名',unresize:true ,width:'10%'},
+      {field:'empSex', title:'员工性别', unresize:true ,width:'7%'},
+      {field:'empAge', title:'员工年龄', unresize:true ,width:'7%'},
+      {field:'empUser', title:'员工账号', unresize:true ,width:'7%'},
+      {field:'empPassword', title:'员工密码', unresize:true ,width:'7%'},
+      {field:'empWork', title:'员工职位', unresize:true ,width:'7%'},
+      {field:'inWorkTime', title:'入职时间', unresize:true ,width:'15%'},
+      {field:'outWorkTime', title:'离职时间', unresize:true ,width:'15%'},
+      {fixed: 'right', align:'center', toolbar: '#barDemo',unresize:true}
     ]]
     ,page: true
   });
@@ -154,8 +159,21 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 		
 		
 	} else if(obj.event === 'del'){
-      layer.confirm('确认删除该部门吗', function(index){
-        obj.del();
+      layer.confirm('确认删除该员工？', function(index){
+        $.ajax({
+        	url:'../delEmployee.do',
+        	data:'empId='+data.empId,
+        	success:function(getBack){
+        		if(getBack==1){
+        			table.reload('test');
+        			layer.alert("success");
+        			layer.close(index);
+        		}else{
+        			layer.alert("Error");
+        			layer.close(index);
+        		}
+        	}
+        });
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
@@ -171,7 +189,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 			title : '编辑部门',//标题
 			type : 1,//样式
 			shade: 0,
-			offset: ['15%', '35%'],//设置位移
+			offset: ['20%', '20%'],//设置位移
 			btn: ['确认', '取消'],
 			yes: function(index, layero){
 				layer.close(index);
@@ -193,13 +211,21 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 		case 'getCheckData':
             $("#formIdOne")[0].reset();
 			var index = layer.open({
-				title : '新增部门',//标题
+				title : '新增员工',//标题
 				type : 1,//样式
 				shade: 0,
-				offset: ['15%', '35%'],//设置位移
+				area:['370px','500px'],
+				offset: ['5%', '20%'],//设置位移
 				btn: ['确认', '取消'],
 				yes: function(index, layero){
-					layer.close(index);
+					$.ajax({
+						type:'',
+						data:'',
+						url:'',
+						success:function(){
+							
+						}
+					});
 					layer.msg('新增成功');
 				}
 				,btn2: function(index, layero){
@@ -216,27 +242,57 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 </script>
 
 		<div id="test12" class="demo-tree-more" style="display:none;"></div>
-
 		<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
 		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">
+			<input type="hidden" name="empId" class="layui-input">
 			<div class="layui-input-inline">
-				<label style="margin:0 10px 0 20px;font-size:13px;">部门编号</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">员工姓名</label>
 				<div class="layui-input-inline">
-      				<input type="text" name="id" lay-verify="required" disabled placeholder="自动生成" autocomplete="off" class="layui-input">
+      				<input type="text" name="empName" lay-verify="required" placeholder="请输入员工的真实姓名" autocomplete="off" class="layui-input">
     			</div>
 			</div>
 			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">部门名称</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">员工年龄</label>
 				<div class="layui-input-inline">
-      				<input type="text" name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      				<input type="text" name="empAge" lay-verify="required" placeholder="请输入18-60" autocomplete="off" class="layui-input">
     			</div>
 			</div>
 			<div class="layui-input-inline" style="margin-top:10px;">
-				<label style="margin:0 10px 0 20px;font-size:13px;">部门描述</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">员工性别</label>
 				<div class="layui-input-inline">
-      				<textarea name="des" required lay-verify="required" cols="25px" placeholder="请输入部门描述" class="layui-textarea"></textarea>
+					<input type="radio" name="empSex" value="男" title="男"/>
+					<input type="radio" name="empSex" value="女" title="女"/>
     			</div>
 			</div>
+			<div class="layui-input-inline" style="margin-top:10px;">
+				<label style="margin:0 10px 0 20px;font-size:13px;">员工职位</label>
+				<div class="layui-input-inline">
+       	 			<select name="empWork" lay-search="">
+          				<option value="">直接选择</option>
+          				<option value="暂无">店员</option>
+          				<option value="团员">副店长</option>
+        			</select>
+      				</div>
+			</div>
+			<div class="layui-input-inline" style="margin-top:10px;">
+				<label style="margin:0 10px 0 20px;font-size:13px;">员工账号</label>
+				<div class="layui-input-inline">
+      				<input type="text" name="empUser" lay-verify="required" placeholder="请输入员工账号" autocomplete="off" class="layui-input">
+    			</div>
+			</div>
+			<div class="layui-input-inline" style="margin-top:10px;">
+				<label style="margin:0 10px 0 20px;font-size:13px;">账号密码</label>
+				<div class="layui-input-inline">
+      				<input type="text" name="empPassword" placeholder="请输入匹配的密码" autocomplete="off" class="layui-input">
+    			</div>
+			</div>
+			<div class="layui-input-inline" style="margin-top:10px;">
+				<label style="margin:0 10px 0 20px;font-size:13px;">入职时间</label>
+				<div class="layui-input-inline">
+      				<input type="text" name="inWorkTime" placeholder="请输入入职时间" autocomplete="off" class="layui-input">
+    			</div>
+			</div>
+			<input type="hidden" name="outWorkTime" class="layui-input">
 			</form>
 		</div>
 
