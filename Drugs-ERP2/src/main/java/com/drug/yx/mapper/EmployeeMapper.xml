@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.yx.mapper.EmployeeMapper">
+
+<select id="getAllEmployee" resultType="Employee">
+	select * from employee e where e.empWork !='店长' and e.onLineType=1 
+</select>
+
+<update id="delEmployee" parameterType="Map">
+	update employee e set e.outWorkTime=#{outWorkTime},e.onLineType=0 where e.empId=#{empId};
+</update>
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
