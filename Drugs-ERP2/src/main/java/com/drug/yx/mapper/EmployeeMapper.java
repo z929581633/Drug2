@@ -16,4 +16,10 @@ public interface EmployeeMapper {
 	//删除某位店员
 	public int delEmployee(Map<String ,Object> map);
 	
+	
+	//新增一位店员
+	public int addEmployee(Employee newEmployee);
+	
+	//修改员工的信息
+	public int changeEmployee(Employee newEmployee);
 }

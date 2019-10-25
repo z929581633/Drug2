@@ -31,7 +31,8 @@
 </script>
 
 <script>
-layui.use(['table','laydate','form','tree', 'util'], function(){
+layui.use(['table','laydate','form','tree', 'util','layer'], function(){
+  var layer=layui.layer;	
   var table = layui.table;
   var laydate = layui.laydate;
   var form = layui.form;
@@ -99,7 +100,10 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
                   }]
           }]
   }]
-  
+  laydate.render({
+	  elem:'#outWorkTime',
+	  type:'month'
+  });
   
 	//基本演示
   tree.render({
@@ -134,7 +138,9 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
     ]]
     ,page: true
   });
-  
+  laydate.render({
+	  elem:'#date'
+  });
   
 //监听工具条
   table.on('tool(test)', function(obj){
@@ -177,21 +183,22 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-    	
-    	//formTest 即 class="layui-form" 所在元素对应的 lay-filter="" 对应的值
-    	form.val("formAuthority", {
-    	  "id": "21321321" // "name": "value"
-    	  ,"name": "销售部门"
-    	  ,"des": "我爱layui"
-    	})
-    	
+    	form.val('formAuthority',data);
     	var index = layer.open({
-			title : '编辑部门',//标题
+			title : '编辑员工',//标题
 			type : 1,//样式
 			shade: 0,
 			offset: ['20%', '20%'],//设置位移
 			btn: ['确认', '取消'],
 			yes: function(index, layero){
+				var parment=$("#newEmployee").serialize();
+				$.ajax({
+					url:'../changeEmployee.do',
+					data:employee,
+					success:function(getBack){
+						
+					}
+				});
 				layer.close(index);
 				layer.msg('编辑成功');
 			}
@@ -209,41 +216,45 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 		var checkStatus = table.checkStatus(obj.config.id);
 		switch (obj.event) {
 		case 'getCheckData':
-            $("#formIdOne")[0].reset();
+            $("#newEmployee")[0].reset();
 			var index = layer.open({
 				title : '新增员工',//标题
 				type : 1,//样式
 				shade: 0,
-				area:['370px','500px'],
+				area:['370px','470px'],
 				offset: ['5%', '20%'],//设置位移
-				btn: ['确认', '取消'],
+				btn: ['确认提交','取消'],
 				yes: function(index, layero){
-					$.ajax({
-						type:'',
-						data:'',
-						url:'',
-						success:function(){
-							
+					var newEmployee=$("#newEmployee").serialize();
+					 $.ajax({
+						url:'../newEmployee.do',
+						data:newEmployee,
+						success:function(getBack){
+							if(getBack==1){
+								table.reload('test');
+								layer.close(index);
+								layer.msg("新增成功");
+							}else if(getBack==2){
+								layer.msg("不允许为空");
+							}else{
+								layer.msg("新增失败");
+							}
 						}
-					});
-					layer.msg('新增成功');
+					}); 
 				}
 				,btn2: function(index, layero){
 					  layer.close(index);
 				},
-				
 				content :$("#branch"),
 			});
 			break;
 		};
 	});
-  
 });
 </script>
-
 		<div id="test12" class="demo-tree-more" style="display:none;"></div>
 		<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
-		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">
+		<form class="layui-form" lay-filter="formAuthority" id="newEmployee">
 			<input type="hidden" name="empId" class="layui-input">
 			<div class="layui-input-inline">
 				<label style="margin:0 10px 0 20px;font-size:13px;">员工姓名</label>
@@ -289,7 +300,7 @@ layui.use(['table','laydate','form','tree', 'util'], function(){
 			<div class="layui-input-inline" style="margin-top:10px;">
 				<label style="margin:0 10px 0 20px;font-size:13px;">入职时间</label>
 				<div class="layui-input-inline">
-      				<input type="text" name="inWorkTime" placeholder="请输入入职时间" autocomplete="off" class="layui-input">
+      				<input type="text" name="inWorkTime" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
     			</div>
 			</div>
 			<input type="hidden" name="outWorkTime" class="layui-input">

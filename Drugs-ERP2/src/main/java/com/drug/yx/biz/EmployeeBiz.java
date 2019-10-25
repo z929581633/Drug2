@@ -14,4 +14,7 @@ public interface EmployeeBiz {
 	
 	public int delEmployee(Map<String ,Object> map);
 	
+	public int addEmployee(Employee newEmployee);
+	
+	public int changeEmployee(Employee newEmployee);
 }

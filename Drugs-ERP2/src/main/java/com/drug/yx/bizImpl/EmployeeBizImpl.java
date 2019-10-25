@@ -31,6 +31,20 @@ public class EmployeeBizImpl implements EmployeeBiz{
 		int back=employeeMapper.delEmployee(map);
 		return back;
 	}
+
+
+	@Override
+	public int addEmployee(Employee newEmployee) {
+		int back=employeeMapper.addEmployee(newEmployee);
+		return back;
+	}
+
+
+	@Override
+	public int changeEmployee(Employee newEmployee) {
+		int back=employeeMapper.changeEmployee(newEmployee);
+		return back;
+	}
 	
 	
 	
