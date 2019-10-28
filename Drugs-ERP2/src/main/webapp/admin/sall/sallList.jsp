@@ -20,50 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-<div>
-<form class="layui-form" >
-<table style="width: 100%">
- 	<tr>
- 		<td><label class="layui-form-label" style="margin-top: -5px;font-size:13px;">采购计划编号：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
-    	<td><label class="layui-form-label" style="margin-top: -10px;font-size:13px;">计划员：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
-		<td><label class="layui-form-label" style="margin-top: -10px;font-size:13px;">采购部门：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px">
-    		</div></td>
- 	</tr>
- 	<tr>
- 		<td><label class="layui-form-label" style="margin-top: -20px;font-size:13px;">采购员：</label>
-   			<div class="layui-input-block">
-      			<input name="a" class="layui-input" type="text" autocomplete="off" lay-verify="title" style="width: 200px;height: 30px ;margin-top: -20px">
-    		</div></td>
- 		<td>
-			<label class="layui-form-label" style="margin-top: -20px;font-size:13px;">审核状态：</label>
-      <div class="layui-input-inline" style="width: 200px;height: 30px;margin-top: -20px">
-       <select name="interest" lay-filter="aihao">
-        <option value="">全部状态</option>
-        <option value="0">写作</option>
-        <option value="1">阅读</option>
-      </select>
-      </div>
-			
-		</td>
-		<td>
-			<label class="layui-form-label" style="margin-top: -20px;font-size:13px;">计划制定日期：</label>
-   			<div class="layui-input-block">
-      			<input name="date" class="layui-input" id="date" type="text" placeholder="yyyy-MM-dd" autocomplete="off" lay-verify="date" style="width: 200px;height: 30px"/>
-    		</div>
-    		
-		</td>
- 	</tr>
- </table>
-</form>
- </div>
 <table class="layui-hida" id="test" lay-filter="test"></table>
 
 
@@ -74,6 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script id="toolbarDemo" type="text/html">
 	<div class="layui-inline">
+		<input type="text" name="findSail" placeholder="在此输入客户VIP号" style="height:32px;"/>
 		<button class="layui-btn layui-btn-sm" lay-event="select"><i class="layui-icon layui-icon-search"></i>查询</button>
 		<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
 	<div>
@@ -81,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
  
 <script id="barDemo" type="text/html">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">详情</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
               
@@ -90,9 +47,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
  
 <script>
-layui.use('table', function(){
+layui.use(['table','layer'], function(){
   var table = layui.table;
-  
+  var layer=layui.layer;
   table.render({
     elem: '#test'
     ,url:'admin/json/demo1.json'
@@ -141,8 +98,15 @@ layui.use('table', function(){
   	    });
     	  break;
       case 'select':
+    	  layer.alert(data.findSail);
+    	  /* $.ajax({
+    		  url:'../../',
+    		  data:'finSail=',
+    		  success:function(getBack){
+    			  
+    		  }
+    	  }); */
     	  
-    	  alert("zz");
     	  break;
     };
   });

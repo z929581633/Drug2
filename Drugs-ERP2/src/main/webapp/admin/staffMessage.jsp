@@ -191,12 +191,21 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
 			offset: ['20%', '20%'],//设置位移
 			btn: ['确认', '取消'],
 			yes: function(index, layero){
-				var parment=$("#newEmployee").serialize();
+				var employee=$("#newEmployee").serialize();
 				$.ajax({
 					url:'../changeEmployee.do',
 					data:employee,
 					success:function(getBack){
-						
+						if(getBack==1){
+							table.reload('test');
+							layer.close(index);
+							layer.msg("修改成功");
+						}else if(getBack==2){
+							layer.msg("非法参数!");
+						}else{
+							layer.close(index);
+							layer.msg("修改失败!");
+						}
 					}
 				});
 				layer.close(index);
@@ -279,9 +288,9 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
 				<label style="margin:0 10px 0 20px;font-size:13px;">员工职位</label>
 				<div class="layui-input-inline">
        	 			<select name="empWork" lay-search="">
-          				<option value="">直接选择</option>
-          				<option value="暂无">店员</option>
-          				<option value="团员">副店长</option>
+          				<option value="店员">直接选择</option>
+          				<option value="店员">店员</option>
+          				<option value="副店长">副店长</option>
         			</select>
       				</div>
 			</div>

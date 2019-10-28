@@ -16,8 +16,8 @@
 </insert>
 	
 <update id="changeEmployee" parameterType="Employee">
-	update employee e set e.empName=${empName},e.empAge=#{empAge},e.empSex=#{empSex},e.empPassword=#{empPassword},e.empWork=#{empWork} 
-	where e.empId=1001;
+	update employee e set e.empName=#{empName},e.empAge=#{empAge},e.empSex=#{empSex},e.empPassword=#{empPassword},e.empWork=#{empWork} 
+	where e.empId=#{empId};
 </update>	
 	
 	
