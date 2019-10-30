@@ -15,22 +15,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="layui/css/layui.css"  media="all">
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>          
+  <link rel="stylesheet" href="layui/css/layui.css"  media="all">       
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
 <table class="layui-hida" id="test" lay-filter="test"></table>
 
 
-<iframe id="addPurchasePlan" src="admin/purchase/addPurchasePlan.jsp" style="display: none;" frameborder="0" width="1000px;" height="500px" ></iframe>
-
-
-
-
 <script id="toolbarDemo" type="text/html">
 	<div class="layui-inline">
-		<input type="text" name="findSail" placeholder="在此输入客户VIP号" style="height:32px;"/>
 		<button class="layui-btn layui-btn-sm" lay-event="select"><i class="layui-icon layui-icon-search"></i>查询</button>
 		<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
 	<div>
@@ -41,44 +34,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <a class="layui-btn layui-btn-xs" lay-event="edit">详情</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-              
+<script id="thisBarDemo" type="text/html">
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>             
           
 <script src="layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 --> 
  
 <script>
-layui.use(['table','layer'], function(){
+layui.use(['table','layer','jquery'], function(){
   var table = layui.table;
   var layer=layui.layer;
+  var $ = layui.jquery;
   table.render({
-    elem: '#test'
-    ,url:'admin/json/demo1.json'
-    ,toolbar: '#toolbarDemo'
-    /* ,title: '用户数据表'
-    	,parseData:function(res){
-        	console.log(res);
-        	return{
-        		code: 0, //解析接口状态
-        		msg:"", //解析提示文本
-        		count: 1000, //解析数据长度
-        		data: res //解析数据列表
-        	}
-        } */
-    ,cols: [[
-      {type: 'checkbox', fixed: 'left'}
-      ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-      ,{field:'username', title:'用户名', width:120, edit: 'text'}
-      ,{field:'email', title:'邮箱', width:150, edit: 'text', templet: function(res){
-        return '<em>'+ res.email +'</em>'
-      }}
-      ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
-      ,{field:'city', title:'城市', width:100}
-      ,{field:'sign', title:'签名'}
-      ,{field:'experience', title:'积分', width:80, sort: true}
-      ,{field:'ip', title:'IP', width:120}
-      ,{field:'logins', title:'登入次数', width:100, sort: true}
-      ,{field:'joinTime', title:'加入时间', width:120}
-      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+    elem: '#test',
+    url:'getAllSailList.do',
+    data:'',
+    toolbar: '#toolbarDemo',
+    cols: [[
+      {field:'drugId', title:'商品码ID', width:'11%'},
+      {field:'drugName', title:'药品名', width:'15%'},
+      {field:'drugType', title:'药品类型', width:'15%'},
+      {field:'drugDesc', title:'描述', width:'25%'},
+      {field:'drugOutRoomPrice', title:'售价', width:'10%'},
+      {field:'drugInRoomNumber', title:'库存', width:'8%'},
+      {fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
     ]]
     ,page: true
   });
@@ -88,25 +68,30 @@ layui.use(['table','layer'], function(){
     var checkStatus = table.checkStatus(obj.config.id);
     switch(obj.event){
       case 'add':
-    	  var layer = layui.layer;
-  	    layer.open({
+    	$("#newBuyList")[0].reset();
+  	    var index=layer.open({
   	    	type: 1, 
   	    	title:'详细信息',
-  	    	offset: ['0px', '50px'],
-  	    	area: ['auto', 'auto'],
-  	    	content: $('#addPurchasePlan') //这里content是一个普通的String
+  	    	shade: 0,
+  	    	offset: ['0px', '50px'],//出现位移
+  	    	area: ['800px', '500px'],//窗口大小
+  	    	btn: ['确定','取消'],
+  	    	yes:function(index, layero){
+  	    		
+  	    	},btn2:function(index, layero){
+  	    		layer.close(index);
+  	    	},content:$("#branch"),
   	    });
     	  break;
       case 'select':
-    	  layer.alert(data.findSail);
-    	  /* $.ajax({
-    		  url:'../../',
-    		  data:'finSail=',
+    	  var findSail=$('#findSail').val();
+    	  $.ajax({
+    		  url:'getAllSailList.do',
+    		  data:"finSail="+FindPage,
     		  success:function(getBack){
     			  
     		  }
-    	  }); */
-    	  
+    	  });
     	  break;
     };
   });
@@ -121,7 +106,6 @@ layui.use(['table','layer'], function(){
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-    	
     	var layer = layui.layer;
 	    layer.open({
 	    	type: 1, 
@@ -133,24 +117,19 @@ layui.use(['table','layer'], function(){
     }
   });
 });
+
 </script>
 <script>
 layui.use(['form', 'layedit', 'laydate'], function(){
-  var form = layui.form
-  ,layer = layui.layer
-  ,layedit = layui.layedit
-  ,laydate = layui.laydate;
+  var form = layui.form,
+  layer = layui.layer,
+  layedit = layui.layedit,
+  laydate = layui.laydate;
   
   //日期
   laydate.render({
     elem: '#date'
   });
-
-  
-  
- 
-  
-  
 });
 </script>
 <script type="text/javascript">
@@ -159,6 +138,85 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 		return false;
 	}
 </script>
+<!-- 商品清单Sc -->
+<script>
+layui.use(['table','layer','jquery'], function(){
+  var table = layui.table;
+  var layer=layui.layer;
+  var $ = layui.jquery;
+  var flag=true;
+  $(function(){
+		$("#searchNo").click(function(){
+			var data=$("#searchShopNo").val();
+			$.ajax({
+				type:'post',
+				url:'findShopNo.do',
+				data:"search="+data,
+				success:function(getBack){
+					if(getBack==null){
+						table.render({
+						    elem: '#buyList',
+						    url:'findShopNo.do',
+						    data:'buyListNo='+2000,
+						    cols: [[
+						      {field:'drugId', title:'商品码ID', width:'11%'},
+						      {field:'drugName', title:'药品名', width:'15%'},
+						      {field:'drugType', title:'药品类型', width:'15%'},
+						      {field:'drugDesc', title:'描述', width:'25%'},
+						      {field:'drugOutRoomPrice', title:'售价', width:'10%'},
+						      {field:'drugInRoomNumber', title:'库存', width:'8%'},
+						      {fixed: 'right', title:'操作', toolbar: '#thisBarDemo', width:90}
+						    ]]
+						  });
+					}else if(getBack==null){
+						layer.msg("查无此货");
+					}
+					
+				}
+			});
+		});
+	});
+	 
+  
+  //监听行工具事件
+  table.on('tool(thisBarDemo)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        layer.close(index);
+      });
+    }
+  });
+});
+
+</script>
+
+<!-- html块 -->
+	<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
+	<h2 align="center"><b>订单清单</b></h2>
+		<form class="layui-form layui-form-pane" lay-filter="newBuyList" id="newBuyList">
+			<div class="layui-form-item">
+    		<label class="layui-form-label">员工号</label>
+    			<div class="layui-input-inline">
+      				<input type="text" name="empId" lay-verify="readonly" style="width:270px" class="layui-input">
+    			</div>
+    		<label class="layui-form-label">会员号</label>
+    			<div class="layui-input-inline">
+      				<input type="text" name="VIP_No" lay-verify="required" style="width:270px" placeholder="如果没有会员号，则此处不填" class="layui-input">
+    			</div>	
+  			</div>
+      		<div class="demoTable">
+  				<div class="layui-inline">
+    				<input class="layui-input" name="searchInput" id="searchShopNo" placeholder="请输入商品码" style="width:580px;"  autocomplete="off">
+  				</div>
+  				<button type="button" id="searchNo" class="layui-btn layui-btn-normal" style="width:105px;">Search</button>
+			</div>
+			<div class="listTable">
+			<table class="layui-table" id="buyList" lay-filter="buyList"></table>
+			</div>
+		</form>
+	</div>
 
 </body>
 </html>

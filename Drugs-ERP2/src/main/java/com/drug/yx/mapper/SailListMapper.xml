@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.yx.mapper.SailListMapper">
+
+<select id="getAllDrugs" resultType="DrugsList">
+	select * from Room r where r.onLineType=1 and r.drugInRoomNumber>0;
+</select>
+
+<select id="searchShopNo" parameterType="String" resultType="DrugsList">
+	select * from Room r where r.drugId=#{search} and r.onLineType=1 and r.drugInRoomNumber>0
+</select>	
+	
+	
+</mapper>

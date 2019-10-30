@@ -146,6 +146,7 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   table.on('tool(test)', function(obj){
     var data = obj.data;
     if(obj.event === 'detail'){
+    	
     	layer.open({
 			title : '权限管理',//标题
 			type : 1,//样式
