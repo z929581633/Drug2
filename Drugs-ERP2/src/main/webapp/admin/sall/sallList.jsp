@@ -59,8 +59,8 @@ layui.use(['table','layer','jquery'], function(){
       {field:'drugOutRoomPrice', title:'售价', width:'10%'},
       {field:'drugInRoomNumber', title:'库存', width:'8%'},
       {fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
-    ]]
-    ,page: true
+    ]],
+    page: true
   });
   
   //头工具栏事件
@@ -88,7 +88,7 @@ layui.use(['table','layer','jquery'], function(){
     	  $.ajax({
     		  url:'getAllSailList.do',
     		  data:"finSail="+FindPage,
-    		  success:function(getBack){
+    		  success:function(){
     			  
     		  }
     	  });
@@ -144,42 +144,41 @@ layui.use(['table','layer','jquery'], function(){
   var table = layui.table;
   var layer=layui.layer;
   var $ = layui.jquery;
-  var flag=true;
   $(function(){
 		$("#searchNo").click(function(){
 			var data=$("#searchShopNo").val();
 			$.ajax({
-				type:'post',
 				url:'findShopNo.do',
 				data:"search="+data,
 				success:function(getBack){
-					if(getBack==null){
-						table.render({
-						    elem: '#buyList',
-						    url:'findShopNo.do',
-						    data:'buyListNo='+2000,
-						    cols: [[
-						      {field:'drugId', title:'商品码ID', width:'11%'},
-						      {field:'drugName', title:'药品名', width:'15%'},
-						      {field:'drugType', title:'药品类型', width:'15%'},
-						      {field:'drugDesc', title:'描述', width:'25%'},
-						      {field:'drugOutRoomPrice', title:'售价', width:'10%'},
-						      {field:'drugInRoomNumber', title:'库存', width:'8%'},
-						      {fixed: 'right', title:'操作', toolbar: '#thisBarDemo', width:90}
-						    ]]
-						  });
-					}else if(getBack==null){
-						layer.msg("查无此货");
+					if(getBack==0){
+						$("#searchShopNo").val("");
+						table.reload('buyList');
+					}else if(getBack==1){
+						layer.msg('查无此货');
 					}
-					
 				}
 			});
 		});
 	});
-	 
+  table.render({
+	    elem: '#buyList',
+	    url:'getBuyList.do',
+	    data:'buyListFlag='+1,
+	    width:710,
+	    cols: [[
+	      {field:'buyDrugId', title:'商品码ID', width:90},
+	      {field:'buyDrugName', title:'药品名', width:170},
+	      {field:'buyDrugType', title:'药品类型', width:120},
+	      {field:'buyDrugPrice', title:'单价', width:80},
+	      {field:'buyDrugNumber', title:'数量', width:80},
+	      {field:'buyDrugTotlePrice', title:'小计', width:80},
+	      {fixed: 'right', title:'操作', toolbar: '#thisBarDemo', width:80}
+	    ]]
+	  }); 
   
   //监听行工具事件
-  table.on('tool(thisBarDemo)', function(obj){
+  /* table.on('tool(thisBarDemo)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
       layer.confirm('真的删除行么', function(index){
@@ -187,7 +186,7 @@ layui.use(['table','layer','jquery'], function(){
         layer.close(index);
       });
     }
-  });
+  }); */
 });
 
 </script>
@@ -199,12 +198,22 @@ layui.use(['table','layer','jquery'], function(){
 			<div class="layui-form-item">
     		<label class="layui-form-label">员工号</label>
     			<div class="layui-input-inline">
-      				<input type="text" name="empId" lay-verify="readonly" style="width:270px" class="layui-input">
+      				<input type="text" name="empId" lay-verify="readonly" style="width:200px" class="layui-input">
     			</div>
     		<label class="layui-form-label">会员号</label>
     			<div class="layui-input-inline">
-      				<input type="text" name="VIP_No" lay-verify="required" style="width:270px" placeholder="如果没有会员号，则此处不填" class="layui-input">
+      				<input type="text" name="VIP_No" lay-verify="required" style="width:200px" placeholder="如果没有会员号，则此处不填" class="layui-input">
     			</div>	
+  			</div>
+  			<div class="layui-form-item">
+    		<label class="layui-form-label">总价</label>
+    			<div class="layui-input-inline">
+      				<input type="text" name="AllPrice" lay-verify="required" value="100" readonly="readonly" style="width:200px" class="layui-input">
+    			</div>
+    		<label class="layui-form-label">收款</label>
+    			<div class="layui-input-inline">
+      				<input type="text" name="payMoney" lay-verify="required" style="width:200px" class="layui-input">
+    			</div>
   			</div>
       		<div class="demoTable">
   				<div class="layui-inline">
