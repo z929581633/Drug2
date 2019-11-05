@@ -36,9 +36,9 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   var table = layui.table;
   var laydate = layui.laydate;
   var form = layui.form;
-  var tree = layui.tree
-  ,layer = layui.layer
-  ,util = layui.util
+  var tree = layui.tree,
+  layer = layui.layer,
+  util = layui.util
 //模拟数据
   ,data = [{
     title: 'ALL'
@@ -146,14 +146,12 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   table.on('tool(test)', function(obj){
     var data = obj.data;
     if(obj.event === 'detail'){
-    	
     	layer.open({
 			title : '权限管理',//标题
 			type : 1,//样式
 			shade: 0,
 			area: ['350px', '500px'],
 			content :$("#test12"),
-			
 			success : function(layero) {
 				var mask = $(".layui-layer-shade");
 				mask.appendTo(layero.parent());

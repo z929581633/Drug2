@@ -27,7 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<button class="layui-btn layui-btn-sm" lay-event="select"><i class="layui-icon layui-icon-search"></i>查询</button>
 		<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
 	<div>
-		
 </script>
  
 <script id="barDemo" type="text/html">
@@ -35,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script id="thisBarDemo" type="text/html">
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>             
           
 <script src="layui/layui.js" charset="utf-8"></script>
@@ -77,9 +76,39 @@ layui.use(['table','layer','jquery'], function(){
   	    	area: ['800px', '500px'],//窗口大小
   	    	btn: ['确定','取消'],
   	    	yes:function(index, layero){
-  	    		
+  	    		var empId=$("#empId").val();
+  	    		var vipNo=$("#VIPNo").val();
+  	    		var allPrice=$("#allPrice").val();
+  	    		var payMoney=$("#payMoney").val();
+  	    		$.ajax({
+  	    			url:'newBuyList.do',
+  	    			//data: {'empId':empId, "vipNo":vipNo, "allPrice":allPrice, "payMoney" : payMoney},
+  	    			data: 'empId='+empId+"&vipNo="+vipNo+"&allPrice="+allPrice+"&payMoney="+payMoney,
+  	    			type:'post',
+  	    			success:function(getBack){
+  	    				if(getBack==0){
+  	    					layer.msg("请重新确认收入金额");
+  	    				}else if(getBack==1){
+  	    					layer.msg("库存不足！！");
+  	    				}else{
+  	    					layer.alert("找零"+getBack+"元。");
+  	    					table.reload('test');
+  	    					$("#newBuyList").reset();
+  	    					layer.close(index);
+  	    				}
+  	    				
+  	    			}
+  	    		});
   	    	},btn2:function(index, layero){
-  	    		layer.close(index);
+  	    		$.ajax({
+  	    			url:'resetBuyList.do',
+  	    			data:'',
+  	    			type:'post',
+  	    			success:function(getBack){
+  	    				table.reload('buyList');
+  	    				layer.close(index);
+  	    			}
+  	    		});
   	    	},content:$("#branch"),
   	    });
     	  break;
@@ -94,27 +123,6 @@ layui.use(['table','layer','jquery'], function(){
     	  });
     	  break;
     };
-  });
-  
-  //监听行工具事件
-  table.on('tool(test)', function(obj){
-    var data = obj.data;
-    //console.log(obj)
-    if(obj.event === 'del'){
-      layer.confirm('真的删除行么', function(index){
-        obj.del();
-        layer.close(index);
-      });
-    } else if(obj.event === 'edit'){
-    	var layer = layui.layer;
-	    layer.open({
-	    	type: 1, 
-	    	title:'详细信息',
-	    	area: ['auto', 'auto'],
-	    	offset: ['0px', '50px'],
-	    	content: $('#addPurchasePlan') //这里content是一个普通的String
-	    });
-    }
   });
 });
 
@@ -161,11 +169,14 @@ layui.use(['table','layer','jquery'], function(){
 			});
 		});
 	});
-  table.render({
-	    elem: '#buyList',
+  	table.render({
+	    elem:'#buyList',
 	    url:'getBuyList.do',
 	    data:'buyListFlag='+1,
 	    width:710,
+	    done: function(map){
+	    	$("#allPrice").attr("value",map.msg);
+	    },
 	    cols: [[
 	      {field:'buyDrugId', title:'商品码ID', width:90},
 	      {field:'buyDrugName', title:'药品名', width:170},
@@ -176,17 +187,24 @@ layui.use(['table','layer','jquery'], function(){
 	      {fixed: 'right', title:'操作', toolbar: '#thisBarDemo', width:80}
 	    ]]
 	  }); 
-  
+
   //监听行工具事件
-  /* table.on('tool(thisBarDemo)', function(obj){
+  table.on('tool(buyList)', function(obj){
     var data = obj.data;
-    if(obj.event === 'del'){
-      layer.confirm('真的删除行么', function(index){
-        obj.del();
-        layer.close(index);
-      });
+    if(obj.event === 'delete'){
+		$.ajax({
+			url:'delBuyList.do',
+			data:'buyDrugId='+data.buyDrugId,
+			success:function(getBack){
+				if(getBack==0){
+					table.reload('buyList');
+				}else if(gatBack==null){
+					layer.msg("删除失败，请重试");
+				}
+			}
+		});
     }
-  }); */
+  });
 });
 
 </script>
@@ -198,21 +216,21 @@ layui.use(['table','layer','jquery'], function(){
 			<div class="layui-form-item">
     		<label class="layui-form-label">员工号</label>
     			<div class="layui-input-inline">
-      				<input type="text" name="empId" lay-verify="readonly" style="width:200px" class="layui-input">
+      				<input type="text" name="empId" id="empId" value="1004" readonly="readonly" style="width:200px" class="layui-input">
     			</div>
     		<label class="layui-form-label">会员号</label>
     			<div class="layui-input-inline">
-      				<input type="text" name="VIP_No" lay-verify="required" style="width:200px" placeholder="如果没有会员号，则此处不填" class="layui-input">
+      				<input type="text" name="VIPNo" id="VIPNo" lay-verify="required" style="width:200px" placeholder="如果没有会员号，则此处不填" class="layui-input">
     			</div>	
   			</div>
   			<div class="layui-form-item">
     		<label class="layui-form-label">总价</label>
     			<div class="layui-input-inline">
-      				<input type="text" name="AllPrice" lay-verify="required" value="100" readonly="readonly" style="width:200px" class="layui-input">
+      				<input type="text" name="allPrice" id="allPrice" value="0" lay-verify="required" readonly="readonly" style="width:200px" class="layui-input">
     			</div>
     		<label class="layui-form-label">收款</label>
     			<div class="layui-input-inline">
-      				<input type="text" name="payMoney" lay-verify="required" style="width:200px" class="layui-input">
+      				<input type="text" name="payMoney" id="payMoney" value="0" lay-verify="required" style="width:200px" class="layui-input">
     			</div>
   			</div>
       		<div class="demoTable">

@@ -10,5 +10,21 @@
 	select * from Room r where r.drugId=#{search} and r.onLineType=1 and r.drugInRoomNumber>0
 </select>	
 	
-	
+<insert id="newBuyList" parameterType="newBuyList">
+	<selectKey keyProperty="salId" resultType="Integer" order="AFTER">select last_insert_id() </selectKey>
+	insert into sailList VALUES(salId,1004,salType,#{salTime},#{salAllPrice},#{salPayPrice},#{salGetMoney},#{salChangePrice},#{salVIPNo},salOtherOne,salOtherTwo)
+</insert>	
+
+<insert id="NewBuyListMessage" parameterType="NewBuyListMessage">
+	insert into sailListMessage VALUES(slmId,#{salId},#{slmDrugId},#{slmDrugName},#{slmDrugPrice},#{slmDrugNumber},#{slmDrugTotlePrice},slmOtherOne,slmOtherOne)
+</insert>
+
+<select id="getDrugNumber" parameterType="Integer" resultType="Integer">
+	select r.drugInRoomNumber from Room r where r.drugId=#{buyDrugId}
+</select>
+
+<update id="changeDrugNumber" parameterType="Map">
+	UPDATE Room r set r.drugInRoomNumber=r.drugInRoomNumber-#{buyNumber} where r.drugId=#{buyDrugId}
+</update>
+
 </mapper>
