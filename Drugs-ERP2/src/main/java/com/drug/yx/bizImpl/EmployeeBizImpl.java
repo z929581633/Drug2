@@ -45,6 +45,30 @@ public class EmployeeBizImpl implements EmployeeBiz{
 		int back=employeeMapper.changeEmployee(newEmployee);
 		return back;
 	}
+
+
+	@Override
+	public List<Employee> getAllHistoryEmployee() {
+		List<Employee> list=new ArrayList<Employee>();
+		list=employeeMapper.getAllHistoryEmployee();
+		return list;
+	}
+
+
+	@Override
+	public List<Employee> findEmployeeById(String id) {
+		List<Employee> list=new ArrayList<Employee>();
+		list=employeeMapper.findEmployeeById(id);
+		return list;
+	}
+
+
+	@Override
+	public List<Employee> findEmployeeByName(String name) {
+		List<Employee> list=new ArrayList<Employee>();
+		list=employeeMapper.findEmployeeByName(name);
+		return list;
+	}
 	
 	
 	

@@ -24,7 +24,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script id="toolbarDemo" type="text/html">
 	<div class="layui-inline">
-		<button class="layui-btn layui-btn-sm" lay-event="select"><i class="layui-icon layui-icon-search"></i>查询</button>
 		<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
 	<div>
 </script>
@@ -50,6 +49,7 @@ layui.use(['table','layer','jquery'], function(){
     url:'getAllSailList.do',
     data:'',
     toolbar: '#toolbarDemo',
+    
     cols: [[
       {field:'drugId', title:'商品码ID', width:'11%'},
       {field:'drugName', title:'药品名', width:'15%'},
@@ -67,6 +67,8 @@ layui.use(['table','layer','jquery'], function(){
     var checkStatus = table.checkStatus(obj.config.id);
     switch(obj.event){
       case 'add':
+    	$("#allPrice").attr("value",0);//重置总价
+		$("#payMoney").val("0");//重置支付金额
     	$("#newBuyList")[0].reset();
   	    var index=layer.open({
   	    	type: 1, 
@@ -91,10 +93,12 @@ layui.use(['table','layer','jquery'], function(){
   	    				}else if(getBack==1){
   	    					layer.msg("库存不足！！");
   	    				}else{
-  	    					layer.alert("找零"+getBack+"元。");
-  	    					table.reload('test');
-  	    					$("#newBuyList").reset();
-  	    					layer.close(index);
+  	    					
+  	    					layer.alert("找零"+getBack+"元。");//提示找零
+  	    					table.reload('test');//重载销售页面
+  	    					table.reload('buyList');
+  	    					layer.close(index);//关闭购物清单页面
+  	    					//location.reload();//刷新整个jsp页面
   	    				}
   	    				
   	    			}
@@ -174,11 +178,11 @@ layui.use(['table','layer','jquery'], function(){
 	    url:'getBuyList.do',
 	    data:'buyListFlag='+1,
 	    width:710,
-	    done: function(map){
-	    	$("#allPrice").attr("value",map.msg);
+	    done: function(data){
+	    	$("#allPrice").attr("value",data.msg);
 	    },
 	    cols: [[
-	      {field:'buyDrugId', title:'商品码ID', width:90},
+	      {field:'buyDrugId', title:'商品码ID',templet:'#usernameTpl', width:90},
 	      {field:'buyDrugName', title:'药品名', width:170},
 	      {field:'buyDrugType', title:'药品类型', width:120},
 	      {field:'buyDrugPrice', title:'单价', width:80},

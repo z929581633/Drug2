@@ -20,12 +20,24 @@ import com.drug.yx.entity.DrugsList;
 import com.drug.yx.entity.NewBuyList;
 import com.drug.yx.entity.NewBuyListMessage;
 
-
+/**
+ * 
+ * @author 杨旭
+ * @dataTime:2019年11月7日下午4:13:30
+ * Description:分店销售控制层，
+ */
 @Controller
 public class SallController {
 	@Autowired
 	private SailListBiz sailListBiz;
 	
+	/**
+	 * 
+	 * @param page-当前页码
+	 * @return-Map<String,Object>
+	 * @need:从页面传输过来的当前页面值
+	 * Description:根据前台页面传输过来的当前页数据，合理的进行分页
+	 */
 	@RequestMapping("/getAllSailList.do")
 	@ResponseBody
 	public Map<String, Object> getAllSailList(int page){
@@ -68,13 +80,27 @@ public class SallController {
 		return map;
 	}
 	
+	/**
+	 * 
+	 * @param search-查询字段
+	 * @param session-存储对象
+	 * @return-Integer
+	 * @need:搜寻药品的条形码
+	 * Description:扫码查询出某样商品，判断其是否存在，并根据结果添加至购物清单中
+	 */
 	@RequestMapping("/findShopNo.do")
 	@ResponseBody
 	public Integer searchShopNo(String search,HttpSession session) {
-		//System.out.println(search);
+		//1.前台是否未输入、2.前台是否输入空值
+		if(search==null||"".equals(search.trim())){
+			//返回结果1
+			return 1;
+		}
+		//如果输入正确值，则根据该条形码是否能查询出唯一一条商品信息
 		DrugsList drugsList=sailListBiz.searchShopNo(search);
-		//判断1.是否查询到药品信息、2.前台是否未输入、3.前台是否输入空值
-		if(drugsList==null||search==null||"".equals(search.trim())){
+		//判断1.是否查询到药品信息
+		if(drugsList==null){
+			//同样返回结果1
 			return 1;
 		}
 		//新建购物订单
@@ -84,15 +110,23 @@ public class SallController {
 		//判断清单列表是否存在
 		//如果不存在，则创建清单列表
 		if(getList==null){
-			//
+			//获得药品id
 			int buyDrugId=drugsList.getDrugId();
+			//获得药品名
 			String buyDrugName=drugsList.getDrugName();
+			//获得药品类型
 			String buyDrugType=drugsList.getDrugType();
+			//获得药品单价
 			double buyDrugPrice=drugsList.getDrugOutRoomPrice();
+			//默认数量
 			int buyDrugNumber=1;
+			//计算出药品小计
 			double buyDrugTotlePrice=buyDrugPrice*buyDrugNumber;
+			//新建购物清单
 			BuyList buyList=new BuyList( buyDrugId,buyDrugName,buyDrugType,buyDrugPrice,buyDrugNumber,buyDrugTotlePrice);
+			//将购物清单放入集合
 			list.add(buyList);
+			//将该集合存入session中
 			session.setAttribute("buyList", list);
 		}else{
 			//如果存在，先判断此次药品是否已存在
@@ -136,7 +170,7 @@ public class SallController {
 			double buyDrugTotlePrice=buyDrugPrice*buyDrugNumber;
 			//将数据添加至购物清单
 			BuyList buyList=new BuyList(buyDrugId,buyDrugName,buyDrugType,buyDrugPrice,buyDrugNumber,buyDrugTotlePrice);
-			//将设置好的购物清单放入购物清单集合中
+			//将设置好的购物清单添加至购物清单集合中
 			getList.add(buyList);
 			//把集合放入session中
 			session.setAttribute("buyList", getList);
@@ -144,7 +178,14 @@ public class SallController {
 		//返回结果
 		return 0;
 	}
-	
+	/**
+	 * 
+	 * @param buyListFlag-进入此方法的标识符
+	 * @param session
+	 * @return-Map<String,Object>
+	 * @need:购物清单编码
+	 * Description:获取session中的购物清单
+	 */
 	@RequestMapping("/getBuyList.do")
 	@ResponseBody
 	public Map<String, Object> getBuyList(String buyListFlag,HttpSession session){
@@ -154,11 +195,13 @@ public class SallController {
 		List<BuyList> list=new ArrayList<BuyList>();
 		//接收session中的购物清单
 		list=(List<BuyList>)session.getAttribute("buyList");
+		//定义空的总价
 		double allPrice=0;
 		//如果集合不为空，则在map结婚中返回回调数据
 		if(list!=null){
 			//计算出此次购物清单的总价
 			for(int i=0;i<list.size();i++){
+				//循环计算
 				allPrice=allPrice+list.get(i).getBuyDrugTotlePrice();
 			}
 			//放入总价
@@ -172,9 +215,17 @@ public class SallController {
 			//返回map集合
 			return map;
 		}
+		//返回结果null
 		return null;
 	}
-	
+	/**
+	 * 
+	 * @param buyDrugId-药品编码号
+	 * @param session
+	 * @return-Integer-返回结果
+	 * @need:药品条形码id
+	 * Description:根据药品的条形码id，删除购物清单中对应的药品
+	 */
 	@RequestMapping("/delBuyList.do")
 	@ResponseBody
 	public Integer delBuyList(String buyDrugId,HttpSession session){
@@ -193,9 +244,9 @@ public class SallController {
 		}
 		//如果有数据，则开始循环，判断购物清单中是否对应的商品id
 		for(int i=0;i<list.size();i++){
-			//如果存在，则删除
+			//如果存在，则删除该药品
 			if(parId.equals(list.get(i).getBuyDrugId())){
-				//删除该下标上的数据
+				//删除该下标上的药品数据
 				list.remove(i);
 			}
 		}
@@ -205,19 +256,42 @@ public class SallController {
 		return 0;
 	}
 	
-	
+	/**
+	 * 
+	 * @param session
+	 * @return-Integer
+	 * @need: session对象
+	 * Description:删除session中的购物清单
+	 */
 	@RequestMapping("/resetBuyList.do")
 	@ResponseBody
 	public Integer resetBuyList(HttpSession session){
-		session.invalidate();
+		//删除session中的采购清单
+		session.removeAttribute("buyList");
+		//返回结果
 		return 0;
 	}
 	
-	
+	/**
+	 * 
+	 * @param session
+	 * @param empId:员工号
+	 * @param vipNo:会员号
+	 * @param allPrice:总价
+	 * @param payMoney:支付金额
+	 * @return-double:找零
+	 * @need:员工id、会员号、总价、收银
+	 * Description:
+	 * 1.扣减库存 --先出库
+	 * 2.创建新的购物清单 
+	 * 3.创建新的购物详情单 
+	 */
 	@RequestMapping("/newBuyList.do")
 	@ResponseBody
 	public double newBuyList(HttpSession session,Integer empId, Integer vipNo,Double allPrice,Double payMoney){
+		//创建购物清单集合
 		List<BuyList> list=new ArrayList<BuyList>();
+		//从session中获取购物清单
 		list=(List<BuyList>)session.getAttribute("buyList");
 		//判断支付金额是否足够
 		if(allPrice>payMoney){
@@ -229,6 +303,7 @@ public class SallController {
 			//为空，返回结果1
 			return 0;
 		}
+		
 		//一.修改库存
 		for(int i=0;i<list.size();i++){
 			//获得该商品的商品id
@@ -298,7 +373,7 @@ public class SallController {
 			sailListBiz.NewBuyListMessage(newBuyListMessage);
 		}
 		//清除session中的购物清单
-		session.invalidate();
+		session.removeAttribute("buyList");
 		//最后返回找零
 		return payMoney-allPrice;
 	}

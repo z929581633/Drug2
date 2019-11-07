@@ -3,11 +3,11 @@
 <mapper namespace="com.drug.yx.mapper.SailListMapper">
 
 <select id="getAllDrugs" resultType="DrugsList">
-	select * from Room r where r.onLineType=1 and r.drugInRoomNumber>0;
+	select * from Room r where r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
 </select>
 
 <select id="searchShopNo" parameterType="String" resultType="DrugsList">
-	select * from Room r where r.drugId=#{search} and r.onLineType=1 and r.drugInRoomNumber>0
+	select * from Room r where r.drugId=#{search} and r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
 </select>	
 	
 <insert id="newBuyList" parameterType="newBuyList">
@@ -20,7 +20,7 @@
 </insert>
 
 <select id="getDrugNumber" parameterType="Integer" resultType="Integer">
-	select r.drugInRoomNumber from Room r where r.drugId=#{buyDrugId}
+	select r.drugInRoomNumber from Room r where r.drugId=#{buyDrugId} ORDER BY r.drugId ASC
 </select>
 
 <update id="changeDrugNumber" parameterType="Map">
