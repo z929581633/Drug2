@@ -16,8 +16,8 @@
 </delete>
 
 <insert id="addOutBound" parameterType="OutBound">
-	INSERT INTO outbound(typeGoods,goodsNumber,goodsTime) VALUES
-	(#{typeGoods},#{goodsNumber},#{goodsTime})
+	INSERT INTO outbound(typeGoods,goodsNumber,goodsTime,status) VALUES
+	(#{typeGoods},#{goodsNumber},#{goodsTime},#{status})
 </insert>
 
 </mapper>

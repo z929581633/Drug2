@@ -72,11 +72,12 @@ public class OutBound {
 	public OutBound() {
 		super();
 	}
-	public OutBound(String typeGoods, String goodsNumber, String goodsTime) {
+	public OutBound(String typeGoods, String goodsNumber, String goodsTime, String status) {
 		super();
 		this.typeGoods = typeGoods;
 		this.goodsNumber = goodsNumber;
 		this.goodsTime = goodsTime;
+		this.status = status;
 	}
 	
 	

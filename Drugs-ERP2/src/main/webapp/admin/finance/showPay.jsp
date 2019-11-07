@@ -41,30 +41,30 @@
 	<div id="mydiv"  style="display: none">
 		<form  class="layui-form" lay-filter="dataform" id="dataform" method="post">
 			<input type="hidden" name="outId">
-			
-				<div class="layui-inline">
-					<label class="layui-form-label">审核人</label>
-					<div class="layui-input-inline">
-						<select name="city" lay-verify="">
-							<option value="">审核人</option>
-							<option value="010" selected></option>
-							<option value="021" name="reviewer">张三</option>
-							<option value="0571">李四</option>
-						</select>
-					</div>
-				</div>
 				
 			<div class="layui-inline">
 					<label class="layui-form-label">审核</label>
 					<div class="layui-input-inline">
-						<select name="city" lay-verify="">
+						<select lay-verify="" name="status">
 							<option value="">审核</option>
-							<option value="021" name="status">已出库</option>
-							<option value="0571" name="status">未出库</option>
+							<option value="已出库" >已出库</option>
+							<option value="未出库" >未出库</option>
 						</select>
 					</div>
 			</div>
 
+			<div class="layui-inline">
+					<label class="layui-form-label">审核人</label>
+					<div class="layui-input-inline">
+						<select name="reviewer" lay-verify="">
+							<option value="">审核人</option>
+							<option value="王五" selected>王五</option>
+							<option value="张三" >张三</option>
+							<option value="李四" >李四</option>
+						</select>
+					</div>
+			</div>
+				
 			<div class="layui-inline">
 					<label class="layui-form-label">出库时间</label>
 					<div class="layui-input-inline">
@@ -93,7 +93,7 @@
 	<!-- 弹出层div(新增) -->
 	<div id="mydivAdd"  style="display: none">
 		<form  class="layui-form" lay-filter="dataform" id="dataform" method="post">
-			<input type="hidden" name="outId">
+			
 			
 			<div class="layui-form-item" >
 				<label class="layui-form-label">货物类型：</label>
@@ -114,7 +114,7 @@
 			<div class="layui-inline">
 					<label class="layui-form-label">下单时间：</label>
 					<div class="layui-input-inline">
-						<input type="text"  id="date" name="goodsTime"
+						<input type="text" id="date" name="goodsTime"
 							placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
 					</div>
 			</div>
@@ -123,9 +123,9 @@
 			<div class="layui-inline">
 					<label class="layui-form-label">审核</label>
 					<div class="layui-input-inline">
-						<select name="city" lay-verify="" name="status">
+						<select lay-verify="" name="status">
 							<option value="">审核</option>
-							<option name="status" value="0571">未出库</option>
+							<option value="未出库">未出库</option>
 						</select>
 					</div>
 			</div>

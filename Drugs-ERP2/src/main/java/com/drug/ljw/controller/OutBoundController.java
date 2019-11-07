@@ -68,8 +68,8 @@ public class OutBoundController {
 		return row;
 	}
 	@RequestMapping("/addOutBound.do")
-	public int addOutBound(String typeGoods,String goodsNumber,String goodsTime){
-		OutBound outBound = new OutBound(typeGoods,goodsNumber,goodsTime);
+	public int addOutBound(String typeGoods,String goodsNumber,String goodsTime,String status){
+		OutBound outBound = new OutBound(typeGoods,goodsNumber,goodsTime,status);
 		int row = outBoundBizImpl.addOutBound(outBound);
 		return row;
 	}
