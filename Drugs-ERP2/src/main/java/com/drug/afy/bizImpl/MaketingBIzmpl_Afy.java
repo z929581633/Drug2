@@ -13,7 +13,7 @@ import com.drug.afy.mapper.MaketingMapper_Afy;
  * @描述：销售biz映射层
  * @author 敖飞扬
  * @time   2019年11月1日
- * @return  map
+ * @return  map集合
  */
 @Service
 public class MaketingBIzmpl_Afy implements MaketingBiz_Afy{
@@ -22,7 +22,7 @@ public class MaketingBIzmpl_Afy implements MaketingBiz_Afy{
 	
 	/**
 	 * @描述 调取查询所有方法
-	 * @return sailListMessage_Afy List
+	 * @return sailListMessage_Afy List集合
 	 * */
 	@Override
 	public List<sailListMessage_Afy>getAllMaketingdetails(){
@@ -46,7 +46,7 @@ public class MaketingBIzmpl_Afy implements MaketingBiz_Afy{
 	/**
 	 * 
 	 * @  调取id 查询方法
-	 * @return  sailListMessage_Afy List
+	 * @return  sailListMessage_Afy List集合
 	 * @param   slmId
 	 * */
 	@Override
@@ -59,7 +59,7 @@ public class MaketingBIzmpl_Afy implements MaketingBiz_Afy{
 	/**
 	 * 
 	 * @描述： 调取查询sailList所有方法
-	 * @return  sailList List
+	 * @return  sailList List集合
 	 * */
 
 	@Override
@@ -73,7 +73,7 @@ public class MaketingBIzmpl_Afy implements MaketingBiz_Afy{
 	 * 
 	 *@描述： 根据名称调取查询所有方法
 	 * @param  slmDrugName
-	 * @return  sailListMessage_Afy list
+	 * @return  sailListMessage_Afy list集合
 	 * */
 
 	@Override

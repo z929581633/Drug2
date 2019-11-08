@@ -26,7 +26,7 @@ public class MaketingController_Afy {
 	 * @time   2019年11月1日
 	 * @param  id
 	 * @param   name
-	 * @return  map
+	 * @return  map集合
 	 */
 	@RequestMapping("/getAllMaketing.do")
 	@ResponseBody
@@ -59,7 +59,7 @@ public class MaketingController_Afy {
 	 * @author 敖飞扬
 	 * @time   2019年11月1日
 	 * @param  id
-	 * @return  map
+	 * @return  map集合
 	 */
 	@RequestMapping("/getMaketing.do")
 	@ResponseBody
@@ -78,7 +78,7 @@ public class MaketingController_Afy {
 	 * @描述：从数据库查询销售信息
 	 * @author 敖飞扬
 	 * @time   2019年11月1日
-	 * @return  map
+	 * @return  map集合
 	 */
 	@RequestMapping("/getAllsailList.do")
 	@ResponseBody
