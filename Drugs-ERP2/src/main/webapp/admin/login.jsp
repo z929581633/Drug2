@@ -36,7 +36,7 @@
                   <div class="logo">
                     <h1>医药ERP后台登录系统</h1>
                   </div>
-                  <p>Medical ERP background login system.</p>
+                  <h2>Medical ERP background login system。</h2>
                 </div>
               </div>
             </div>
@@ -47,14 +47,14 @@
                   <form method="post" class="form-validate">
                     <div class="form-group">
                       <input id="login-username" type="text" name="loginUsername" required data-msg="Please enter your username" class="input-material">
-                      <label for="login-username" class="label-material">User Name</label>
+                      <label for="login-username" class="label-material">用户名</label>
                     </div>
                     <div class="form-group">
                       <input id="login-password" type="password" name="loginPassword" required data-msg="Please enter your password" class="input-material">
-                      <label for="login-password" class="label-material">Password</label>
-                    </div><a id="login" href="adminindex.jsp" class="btn btn-primary">Login</a>
+                      <label for="login-password" class="label-material">密码</label>
+                    </div><a id="login" href="adminindex.jsp" class="btn btn-primary">登录</a>
                     <!-- This should be submit button but I replaced it with <a> for demo purposes-->
-                  </form><a href="" class="forgot-pass">Forgot Password?</a><br><small>Do not have an account? </small><a href="" class="signup">Signup</a>
+                  </form><a href="" class="forgot-pass">忘记了密码?</a><br><small>没有帐户? </small><a href="" class="signup">注册</a>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="copyrights text-center">
-        <p>XX小组 by <a href="#" class="external">医药erp系统</a>
+        <p>罗波小组 by <a href="#" class="external">医药erp系统</a>
           <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
         </p>
       </div>

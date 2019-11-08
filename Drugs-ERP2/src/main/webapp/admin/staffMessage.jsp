@@ -119,7 +119,6 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   });
   table.render({
     elem: '#test',
-    //url:'json/demo1.json',
     url:'../getEmployee.do',
     toolbar: '#toolbarDemo',
     title: '员工管理' ,
@@ -265,6 +264,12 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
 		<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
 		<form class="layui-form" lay-filter="formAuthority" id="newEmployee">
 			<input type="hidden" name="empId" class="layui-input">
+			<div class="layui-input-inline">
+				<label style="margin:0 10px 0 20px;font-size:13px;">员工姓名</label>
+				<div class="layui-input-inline">
+      				<input type="text" name="empId" lay-verify="required" placeholder="请输入员工的编号" autocomplete="off" class="layui-input">
+    			</div>
+			</div>
 			<div class="layui-input-inline">
 				<label style="margin:0 10px 0 20px;font-size:13px;">员工姓名</label>
 				<div class="layui-input-inline">

@@ -1,49 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>分店销量报表</title>
-    <!--引入echarts.js-->
-    <script src="<%=request.getContextPath()%>/js/echarts.js"></script>
+    <meta charset="utf-8"><link rel="icon" href="https://jscdn.com.cn/highcharts/images/favicon.ico">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+	<title>同人堂医药分店销售实收报表</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script> 
+   	<script src="http://code.highcharts.com/highcharts.js"></script> 
+   	<script src="http://code.highcharts.com/modules/data.js"></script>  
 </head>
 <body>
-    <!--为ECharts准备一个具备大小（宽高）的Dom-->
-    <div id = "main" style = "width:600px;height:400px;margin-left: 150px;margin-top: 70px;"></div>
-    <script type = "text/javascript">
-        //基于准备好的dom，初始化echarts实例
-        var myChar =
-            echarts.init(document.getElementById('main'));
- 
-         // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: '分店销售报表'
-            },
-            tooltip: {},
-            legend: {
-                data:['销量']
-                ,itemGap:20
-            },
-            xAxis: {
-            	 name: '时间',
-                data: ["第1周","第2周","第3周","第4周","第5周"]
-            },
-            yAxis: {
-            	name: '销量'
-            	},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                barGap:'20%',
-                data: [500, 1020, 1360, 1000,  2046]
-            }]
-        };
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChar.setOption(option);
-    </script>
- 
+	<div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+	
+	<table id="datatable" lay-filter="datatable"></table>
+	<script type="text/javascript">
+	$().ready(function(){
+		$.ajax({
+			url: "../../getAllsailList.do"
+			, dataType: "json"
+			, error: function(xhr, err){ alert(err); }
+			, success: datadone
+		});
+		function datadone(backdata) { 
+			//alert(debugObj(backdata.data));
+ 	   		var series = new Array();
+ 	   		for (var i in backdata.data) {
+ 	   			var one = {};
+ 	   			one.name = backdata.data[i].月份;
+ 	   			one.data = [];
+ 	   			one.data.push(backdata.data[i].交易金额);
+ 	   			series.push(one);
+ 	   		}
+ 	   		var chart = {
+ 	      		type: 'column'
+ 	   		};
+ 	   		var title = {
+ 	      		text: '同人堂医药分店销售报表'   
+ 	   		};      
+ 	   		var yAxis = {
+ 		      	allowDecimals: false,
+ 		      	title: {
+ 		        	text: '实收（元）'
+ 		      	}
+ 		   	};  
+ 	   	var xAxis = {
+ 		   		categories: [""]
+ 	   			, crosshair: true
+ 			};   
+	      
+ 	   		var json = {};   
+ 	   		json.chart = chart; 
+ 	   		json.title = title; 
+ 	   		json.series = series ;
+ 	   		json.xAxis = xAxis;
+ 	   		json.yAxis = yAxis; 
+	   		$('#container').highcharts(json);
+		}
+	});
+	</script>
+	
 </body>
 </html>
