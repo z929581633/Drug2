@@ -28,7 +28,7 @@ public interface MaketingMapper_Afy {
 	@Select("select count(*) from sailListMessage")
 	Integer countAllMaketingdetails();
 	
-	//查询销售订单收入信息( 月份,交易量,交易金额 )
+	//查询销售订单收入信息( 月份,交易量。交易金额 )
 	@Select("SELECT SUBSTR(salTime,1,7) 月份, COUNT(*) 交易量, SUM(salGetMoney) 交易金额 FROM sailList\r\n" + 
 			"GROUP BY SUBSTR(salTime,1,7)\r\n" + 
 			"ORDER BY SUBSTR(salTime,1,7)")
