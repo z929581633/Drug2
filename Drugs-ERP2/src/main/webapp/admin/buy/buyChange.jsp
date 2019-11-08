@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>月生产计划</title>
+<title>采购退换</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <script src="../layui/layui.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+
+
 <style>
 /*table外边距*/
 .layui-table, .layui-table-view {
@@ -29,84 +31,31 @@
 			lay-data="{id: 'idTest'}" lay-filter="test2"></table>
 	</div>
 
-
 	<script type="text/html" id="toolbarDemo">
-  <div class="layui-inline" style="padding-left:20px;">
-      <label width="120px" style="margin:0 5px 0 0px;font-size:13px;">请选择月份</label>
-      <div class="layui-input-inline">
-        <input type="text" class="layui-input" id="test3" placeholder="yyyy-MM">
-      </div>
-	
-	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">请选择状态</label>
-	<div class="layui-input-inline">
-		<select name="city" lay-verify="">
-  			<option value="">审核状态</option>
-  			<option value="010">未审核</option>
-  			<option value="021">审核未通过</option>
- 			<option value="0571">审核通过</option>
-		</select>  
+  					<div class="layui-btn-container" style="margin-top:10px;padding-left:20px;">
+    					<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addWarehouse"><i class="layui-icon layui-icon-add-1"></i>新增</button>
 	</div>
-	<button type="button" class="layui-btn layui-btn-normal">查询</button>
-
-  </div>
-
-  <div class="layui-btn-container" style="margin-top:20px;padding-left:20px;">
-    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData"><i class="layui-icon layui-icon-add-1"></i>制定月计划 </button>
-    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckLength"><i class="layui-icon layui-icon-add-1"></i>制定日计划</button>
-    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="isAll"><i class="layui-icon layui-icon-friends"></i>审核月计划</button>
-  </div>
+	
+				</script>
+	<script type="text/html" id="toolbarDemo2">
+  					<div class="layui-btn-container" style="margin-top:10px;padding-left:20px;">
+    					<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addWarehouse2"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+	<
+  					  					
+</div>
+	
+				</script>
+	<script type="text/html" id="barDemo2">
+  <a class="layui-btn layui-btn-xs" lay-event="edit2">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del2">删除</a>
 </script>
 
-<div id="toolbarDemo2" style="display:none">
-<form class="layui-form" action="">
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;">
-  <legend>添加采购商品</legend>
-</fieldset>
-	<div class="layui-inline" style="padding-left:0px;">
-	    <div class="layui-inline">
-      <label class="layui-form-label">搜索</label>
-      <div class="layui-input-inline">
-        <select name="modules" lay-verify="required" lay-search="">
-          <option value="">直接选择或搜索选择</option>
-          <option value="1">layer</option>
-          <option value="2">form</option>
-          <option value="3">layim</option>
-          <option value="4">element</option>
-          <option value="5">laytpl</option>
-          <option value="6">upload</option>
-          <option value="7">laydate</option>
-          <option value="8">laypage</option>
-          <option value="9">flow</option>
-          <option value="10">util</option>
-          <option value="11">code</option>
-          <option value="12">tree</option>
-          <option value="13">layedit</option>
-          <option value="14">nav</option>
-          <option value="15">tab</option>
-          <option value="16">table</option>
-          <option value="17">select</option>
-          <option value="18">checkbox</option>
-          <option value="19">switch</option>
-          <option value="20">radio</option>
-        </select>
-      </div>
-    </div>
-	<label width="120px" style="margin:0 5px 0 20px;font-size:13px;">输入生产数量</label>
-	<div class="layui-input-inline">
-		 <input type="text" name="drugNum" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
-	</div>
-	<button type="button" class="layui-btn layui-btn-normal">添加</button>
-  </div>
- </form>	
-</div>
-<script type="text/html" id="barDemo">
+	<script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-	<script type="text/html" id="barDemo2">
-			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="manageMe">删除</a>
-	</script>
+
 	<script>
 		layui.use([ 'table', 'laydate', 'element', 'form', 'layer' ],
 				function() {
@@ -115,43 +64,44 @@
 					var table = layui.table;
 					var laydate = layui.laydate;
 					var form = layui.form;
-
+					laydate.render({
+						elem: '#test1', //指定元素
+					});
 					table.render({
 						elem : '#test',
-						url : '../../getAllMonthPlan.do',
+						url : '../../selectAllSalesReturn.do',
 						toolbar : '#toolbarDemo',
 						title : '用户数据表',
 						cols : [ [ {
 							type : 'checkbox',
 							fixed : 'left'
 						}, {
-							field : 'monthPlanId',
-							title : '月计划编号',
+							field : 'returnId',
+							title : '退换ID',
 							unresize : true
 						}, {
-							field : 'monthPlanNum',
-							title : '生产总数量',
-							edit: 'text',
+							field : 'orderNumber',
+							title : '订单编号',
 							unresize : true
 						}, {
-							field : 'monthApplicationTime',
-							title : '申请时间',
+							field : 'returnSupplier',
+							title : '供应商名称',
 							unresize : true
 						}, {
-							field : 'employeeId',
-							title : '申请发起人编号',
+							field : 'returnMoney',
+							title : '订单金额',
 							unresize : true
 						}, {
-							field : 'reviewDate',
-							title : '审核时间',
+							field : 'returnCause',
+							title : '退货金额',
 							unresize : true
-						}, {
-							field : 'reviewStatus',
+						},{
+							field : 'returnTime',
+							title : '退货时间',
+							unresize : true
+						},{
+							field : 'returnPerpare1',
 							title : '审核状态',
-							unresize : true
-						}, {
-							field : 'empId',
-							title : '审核人编号',
 							unresize : true
 						}, {
 							fixed : 'right',
@@ -161,206 +111,109 @@
 							unresize : true
 						} ] ],
 						page : true
-						,limit:5
-						,limits:[5,10,20,30]   
 					});
 
-					//年月选择器
-					laydate.render({
-						elem : '#test3',
-						type : 'month'
-					});
+
 					//常规用法
 					laydate.render({
-						elem : '#test5'
-					});
-					//常规用法
-					laydate.render({
-						elem : '#test1'
+						elem : '#test2'
 					});
 
 					//工具栏事件
+					table.on('toolbar(test2)',function(obj){
+						var checkStatus = table.checkStatus(obj.config.id);
+						switch (obj.event){
+							case 'addWarehouse2':	//新增
+								layer.open({
+									title: '新增',
+									type: 1, //Page层类型
+									//area: ['500px', '520px'], //宽高
+									closeBtn: 0,
+									btn: ['确定', '关闭'], //可以无限个按钮
+									content: $("#addDetails2"),
+									yes: function(index, layero) {
+										var order = $('#formIdOne2').serialize();
+										layer.close(index);
+										//执行清空
+										$("#warehouseOperator").empty();
+										$("#storageWarehouse").empty();
+										form.render("select");
+										if(index > 0){
+											  $.ajax({
+										          url: "../../addReturnDetails.do",
+										          type: "POST",
+										          data: order,
+										          success: function(back){
+										              if(back == '1'){
+										                  //关闭弹框
+										                  layer.msg("新增成功", {icon: 6});
+										                  table.reload('test2',{  });
+										                  layer.close(ed);
+										              }else{
+										                  layer.msg("新增失败", {icon: 5});
+										                  table.reload('test2',{  });
+										              }
+										          }
+										      });
+										}
+									},
+									success: function(layero, index){
+										  form.render();
+										  }
+								});
+								break;
+						}
+					});
 					table.on('toolbar(test)', function(obj) {
 						var checkStatus = table.checkStatus(obj.config.id);
 						switch (obj.event) {
-						case 'getCheckData':
-							var index = layer.open({
-								title : '制定计划详情',//标题
-								type : 1,//样式
-								shade : 0,
-								offset : [ '5%', '15%' ],//设置位移
-								btn : [ '确认', '取消' ], 
-								yes : function(index, layero) {
-									var index2 = layer.confirm('你确认制定该生产计划？', {
-										btn : [ '确认', '取消' ] //可以无限个按钮
-										,
-										btn2 : function(index, layero) {
-											layer.close(index2);
-										}
-									}, function(layero) {
-										layer.close(index2);
-										var index88 = layer.open({
-											type : 1,
-											shade : 0.25,
-											area : [ '400px', '350px' ],
-											content : $('#nameAndTimeDiv'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-											success : function(layero, index) {
-												form.render();
-											},
-											btn : [ '确认', '取消' ],
-											yes : function(layero) {
-												layer.close(index);
-												layer.close(index88);
-												layer.msg('计划制定成功');
-											},
-											btn2 : function(index, layero) {
-												layer.close(index88);
-											}
-										});
-
-									});
-								},
-								btn2 : function(index, layero) {
+						case 'addWarehouse':	//新增
+							layer.open({
+								title: '新增',
+								type: 1, //Page层类型
+								area: ['400px', '450px'], //宽高
+								closeBtn: 0,
+								btn: ['确定', '关闭'], //可以无限个按钮
+								yes: function(index, layero) {
+									var order = $('#formIdOne').serialize();
 									layer.close(index);
+									//执行清空
+									$("#warehouseOperator").empty();
+									$("#storageWarehouse").empty();
+									form.render("select");
+									if(index > 0){
+										  $.ajax({
+									          url: "../../addSalesReturn.do",
+									          type: "POST",
+									          data: order,
+									          success: function(back){
+									              if(back == '1'){
+									                  //关闭弹框
+									                  layer.msg("新增成功", {icon: 6});
+									                  table.reload('test',{  });
+									                  layer.close(ed);
+									              }else{
+									                  layer.msg("新增失败", {icon: 5});
+									                  table.reload('test',{  });
+									              }
+									          }
+									      });
+									}
 								},
-								area : [ '880px', '550px' ],
-								content : $("#table2Div"),
-								success : function(layero) {
-									var mask = $(".layui-layer-shade");
-									mask.appendTo(layero.parent());
-								},
-								end : function() {
-									$('[lay-id="test2"]').css("display", "none");
-								}
-							});
-
-							table.render({
-								elem : '#test2',
-								url : '../json/demo1.json',
-								toolbar : '#toolbarDemo2',
-								totalRow : true,
-								cols : [ [ {
-									type : 'numbers'
-								}, {
-									field : 'id',
-									title : '药品编号',
-									unresize : true
-								}, {
-									field : 'username',
-									title : '药品名称',
-									edit : 'text',
-									unresize : true
-								}, {
-									field : 'experience',
-									title : '生产数量',
-									totalRow : true,
-									edit : 'text',
-									unresize : true
-								}, {
-
-									align : 'center',
-									toolbar : '#barDemo2',
-									unresize : true
-								} ] ]
+								content: $("#addDetails")
 							});
 							break;
-						case 'getCheckLength':
-							var data = checkStatus.data;
-							if (data.length == 1) {
-								//判断月计划审核状态
-								if (data[0].sex == '男') {
-									var index2 = layer.confirm('你确认制定该生产计划？', {
-										btn : [ '确认', '取消' ] //可以无限个按钮
-										,
-										btn2 : function(index, layero) {
-											layer.close(index2);
-										}
-									}, function(layero) {
-										layer.close(index2);
-										var index88 = layer.open({
-											type : 1,
-											shade : 0.25,
-											area : [ '400px', '350px' ],
-											content : $('#nameAndTimeDiv'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-											success : function(layero, index) {
-												form.render();
-											},
-											btn : [ '确认', '取消' ],
-											yes : function(layero) {
-												layer.close(index);
-												layer.close(index88);
-												layer.msg('计划制定成功');
-											},
-											btn2 : function(index, layero) {
-												layer.close(index88);
-											}
-										});
 
-									});
-								} else {
-									layer.msg('该月计划未审核');
-								}
-
-							} else if (data.length > 1) {
-								layer.msg('最多只能选择一条月计划');
-							} else {
-								layer.msg('请选择一条月计划');
-							}
-
-							break;
-						case 'isAll':
-							var data = checkStatus.data;
-							if (data.length == 1) {
-								//判断月计划审核状态
-								if (data[0].reviewStatus == '未审核') {
-									var index2 = layer.confirm('你确认审核该生产计划？', {
-										btn : [ '确认', '取消' ] //可以无限个按钮
-										,
-										btn2 : function(index, layero) {
-											layer.close(index2);
-										}
-									}, function(layero) {
-										layer.close(index2);
-										var index88 = layer.open({
-											type : 1,
-											shade : 0.25,
-											area : [ '400px', '350px' ],
-											content : $('#nameAndTimeDiv2'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-											success : function(layero, index) {
-												form.render();
-											},
-											btn : [ '确认', '取消' ],
-											yes : function(layero) {
-												layer.close(index);
-												layer.close(index88);
-												layer.msg('计划审核成功');
-											},
-											btn2 : function(index, layero) {
-												layer.close(index88);
-											}
-										});
-
-									});
-								} else {
-									layer.msg('该月计划已审核');
-								}
-
-							} else if (data.length > 1) {
-								layer.msg('最多只能审核一条月计划');
-							} else {
-								layer.msg('请选择一条要审核月计划');
-							}
-							break;
 						}
 						;
 					});
-
+					var ed;
 					//监听工具条
 					table.on('tool(test)', function(obj) {
 						var data = obj.data;
 						if (obj.event === 'detail') {
 							layer.open({
-								title : '计划详情',//标题
+								title : '详情',//标题
 								type : 1,//样式
 								shade : 0,
 								offset : [ '5%', '15%' ],//设置位移
@@ -376,164 +229,404 @@
 											.css("display", "none");
 								}
 							});
+
 							table.render({
 								elem : '#test2',
-								url : '../json/demo1.json',
+								url : '../../selectAllReturnDetails.do?returnId='+data.returnId+'',
+								toolbar : '#toolbarDemo2',
 								totalRow : true,
 								cols : [ [ {
-									type : 'numbers'
+									type : 'checkbox',
+									fixed : 'left'
 								}, {
-									field : 'id',
-									title : '药品编号',
+									field : 'detailsId',
+									title : '采购订单详情id',
+									unresize : true
+								},{
+									field : 'detailsName',
+									title : '产品名称',
 									unresize : true
 								}, {
-									field : 'username',
-									title : '药品名称',
+									field : 'detailsQuantity',
+									totalRow : true,
+									title : '产品数量',
 									unresize : true
-								}, {
-									field : 'experience',
-									title : '生产数量',
+								},  {
+									field : 'detailsUnitPrice',
+									title : '产品单价',
 									totalRow : true,
 									unresize : true
-								} ] ]
+								}, {
+									field : 'detailsTotalPrice',
+									title : '产品总价',
+									totalRow : true,
+									unresize : true
+								}, {
+									field : 'returnId',
+									title : '退货ID外键',
+									totalRow : true,
+									
+								}, {
+									fixed : 'right',
+									width : 178,
+									align : 'center',
+									toolbar : '#barDemo2',
+									unresize : true
+								}  ] ]
 							});
-
-						} else if (obj.event === 'del') {
-							layer.confirm('确认删除该计划吗？', function(index) {
+							
+						}else if (obj.event === 'del') {
+							layer.confirm('确认删除吗？', function(index) {
+						    	  $.ajax({
+						              url: "../../deleteSalesReturn.do",
+						              type: "POST",
+						              data:{"returnId":data.returnId},
+						              success: function(data){
+						                  if(data == "1"){
+						                      //关闭弹框
+						                      layer.msg("删除成功", {icon: 6});
+						                      table.reload('test',{  });
+						                  }else{
+						                      layer.msg("删除失败", {icon: 5});
+						                  }
+						              }
+						          });
 								obj.del();
 								layer.close(index);
 							});
-						} else if (obj.event === 'edit') {
-							if (data.sex == '男') {
-								layer.alert('当前订单已审核,无法修改', {
-									icon : 2
-								});
-							} else if (data.sex == '女') {
-
-								var index = layer.open({
-									title : '修改计划详情',//标题
-									type : 1,//样式
-									shade : 0,
-									offset : [ '5%', '15%' ],//设置位移
-									btn : [ '确认', '取消' ],
-									yes : function(index, layero) {
-										layer.confirm('确定修改该计划？', function(
-												index) {
-											layer.close(index);
-											alert("好的已修改");
-										});
-									},
-									btn2 : function(index, layero) {
-										layer.close(index);
-									},
-									area : [ '880px', '550px' ],
-									content : $("#table2Div"),
-									success : function(layero) {
-										var mask = $(".layui-layer-shade");
-										mask.appendTo(layero.parent());
-										//其中：layero是弹层的DOM对象
-									},
-									end : function() {
-										$('[lay-id="test2"]').css("display",
-												"none");
-									}
-								});
-								table.render({
-									elem : '#test2',
-									url : '../json/demo1.json',
-									toolbar : '#toolbarDemo2',
-									totalRow : true,
-									cols : [ [ {
-										type : 'numbers'
-									}, {
-										field : 'id',
-										title : '药品编号',
-										unresize : true
-									}, {
-										field : 'username',
-										title : '药品名称',
-										edit : 'text',
-										unresize : true
-									}, {
-										field : 'experience',
-										title : '生产数量',
-										totalRow : true,
-										edit : 'text',
-										unresize : true
-									}, {
-
-										align : 'center',
-										toolbar : '#barDemo2',
-										unresize : true
-									} ] ]
-								});
-							}
+						}  else if (obj.event === 'edit') {
+							ed=layer.open({
+								type : 1,
+								title : '修改',
+								area : [ '500px', '300px' ],
+								content : $('#div'),
+					   		  	//成功后的回调
+					   			success: function(layero, index){
+					   			form.val("forms",data);
+					        	} 
+							});
 						}
 					});
-				});
+					table.on('tool(test2)', function(obj) {
+						var checkStatus2 = table.checkStatus("test2");
+						var data2 = obj.data;
+						switch (obj.event) {
+							case 'del2':
+								layer.confirm('确认删除吗？', function(index) {
+							    	  $.ajax({
+							              url: "../../deleteReturnDetails.do",
+							              type: "POST",
+							              data:{"detailsId":data2.detailsId},
+							              success: function(data2){
+							                  if(data2 == "1"){
+							                      //关闭弹框
+							                      layer.msg("删除成功", {icon: 6});
+							                      table.reload('test2',{  });
+							                  }else{
+							                      layer.msg("删除失败", {icon: 5});
+							                  }
+							              }
+							          });
+									obj.del();
+									layer.close(index);
+								});
+							break;
+							case 'edit2':
+								ed2=layer.open({
+									type : 1,
+									title : '修改',
+									area : [ '500px', '300px' ],
+									content : $('#div2'),
+						   		  	//成功后的回调
+						   			success: function(layero, index){
+						   			form.val("orderd",data2);
+						        	} 
+								});
+								break;
+						}
+					});
+					  //form表单的提交事件
+					  form.on("submit(demo1)",function(data){
+						  console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+						  console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+						  console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+						  $.ajax({
+					          url: "../../updateSalesReturn.do",
+					          type: "POST",
+					          data: data.field,
+					          success: function(back){
+					              if(back == '1'){
+					                  //关闭弹框
+					                  layer.msg("更新成功", {icon: 6});
+					                  table.reload('test',{  });
+					                  layer.close(ed);
+					              }else{
+					                  layer.msg("更新失败", {icon: 5});
+					                  table.reload('test',{  });
+					              }
+					          }
+					      });
+						  return false;
+					  });
+					  //form表单的提交事件
+					  form.on("submit(demo2)",function(data2){
+						  console.log(data2.elem) //被执行事件的元素DOM对象，一般为button对象
+						  console.log(data2.form) //被执行提交的form对象，一般在存在form标签时才会返回
+						  console.log(data2.field) //当前容器的全部表单字段，名值对形式：{name: value}
+						  $.ajax({
+					          url: "../../updateReturnDetails.do",
+					          type: "POST",
+					          data: data2.field,
+					          success: function(back){
+					              if(back == '1'){
+					                  //关闭弹框
+					                  layer.msg("更新成功", {icon: 6});
+					                  table.reload('test2',{  });
+					                  layer.close(ed2);
+					              }else{
+					                  layer.msg("更新失败", {icon: 5});
+					                  table.reload('test2',{  });
+					              }
+					          }
+					      });
+						  return false;
+					  });
+			});
 	</script>
 
-	<!-- 制定人和制定时间 -->
-	<div style="display: none;" id="nameAndTimeDiv">
-
-		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">
-			<div class="layui-inline"
-				style="padding-left: 0px; margin-top: 20px;">
-				<label width="120px" style="margin: 0 5px 0 20px; font-size: 13px;">制定日期</label>
-				<div class="layui-input-inline">
-					<input type="text" class="layui-input" id="test1"
-						placeholder="yyyy-MM-dd">
+	<div id="div2" style="display: none;">
+		<form class="layui-form" action="" id="orderd" lay-filter="orderd">
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">退货详情ID</label>
+				<div class="layui-input-block">
+					<input name="detailsId" class="layui-input" type="text"
+						autocomplete="off" lay-verify="title" readonly="readonly">
 				</div>
 			</div>
-			<div style="padding-left: 0px; margin-top: 15px;">
-				<label width="120px" style="margin: 0 5px 0 20px; font-size: 13px;">制定人员</label>
-				<div class="layui-input-inline">
-					<select name="city" lay-verify="" lay-search="">
-						<option value="">制定人</option>
-						<option value="010">张三</option>
-						<option value="021">李四</option>
-						<option value="0571">王五</option>
-					</select>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">产品名称</label>
+				<div class="layui-input-block">
+					<input name="detailsName" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
 				</div>
-				<div class="layui-input-inline" style="margin-top: 10px;">
-					<label style="margin: 0 10px 0 20px; font-size: 13px;">计划描述</label>
-					<div class="layui-input-inline" style="margin-left: -5px;">
-						<textarea name="des" required lay-verify="required" cols="35px"
-							rows="4px" placeholder="请输入计划描述" class="layui-textarea"></textarea>
-					</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label" style="font-size: 13px;">产品数量</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="" name="detailsQuantity"
+						>
+				</div>
+			</div>
+						<div class="layui-inline">
+				<label class="layui-form-label" style="font-size: 13px;">产品单价</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="" name="detailsUnitPrice"
+						>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">产品总价</label>
+				<div class="layui-input-block">
+					<input name="detailsTotalPrice" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+						<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">退货ID外键</label>
+				<div class="layui-input-block">
+					<input name="returnId" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+						<div class="layui-form-item" hidden>
+				<label class="layui-form-label" style="font-size: 13px;"></label>
+				<div class="layui-input-block">
+					<input name="detailsPerpare1" class="layui-input" type="text"
+						autocomplete="off" >
+				</div>
+			</div>
+			<div class="layui-form-item" hidden>
+				<label class="layui-form-label" style="font-size: 13px;"></label>
+				<div class="layui-input-block">
+					<input name="detailsPerpare2" class="layui-input" type="text"
+						autocomplete="off" >
+				</div>
+			</div>
+			<div class="layui-form-item" hidden>
+				<label class="layui-form-label" style="font-size: 13px;"></label>
+				<div class="layui-input-block">
+					<input name="detailsPerpare3" class="layui-input" type="text"
+						autocomplete="off" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-filter="demo2" lay-submit="">立即提交</button>
+					<button class="layui-btn layui-btn-primary" type="reset">重置</button>
 				</div>
 			</div>
 		</form>
 	</div>
-	<!-- 审核人和审核时间 -->
-	<div style="display: none;" id="nameAndTimeDiv2">
 
-		<form class="layui-form" lay-filter="formAuthority2" id="formIdOne2">
+	<div id="div" style="display: none;">
+		<form class="layui-form" action="" id="form1" lay-filter="forms">
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">退换ID</label>
+				<div class="layui-input-block">
+					<input name="returnId" class="layui-input" type="text"
+						autocomplete="off" lay-verify="title" readonly="readonly">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">订单编号</label>
+				<div class="layui-input-block">
+					<input name="orderNumber" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
 
-			<div class="layui-inline"
-				style="padding-left: 0px; margin-top: 20px;">
-				<label width="120px" style="margin: 0 5px 0 20px; font-size: 13px;">审核日期</label>
+			<div class="layui-inline">
+				<label class="layui-form-label" style="font-size: 13px;">供应商名称</label>
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input" id="test5"
+					<input type="text" class="layui-input" id="" name="returnSupplier"
 						placeholder="yyyy-MM-dd">
 				</div>
 			</div>
-			<div style="padding-left: 0px; margin-top: 15px;">
-				<label width="120px" style="margin: 0 5px 0 20px; font-size: 13px;">审核人员</label>
+			<div class="layui-inline">
+				<label class="layui-form-label" style="font-size: 13px;">订单金额</label>
 				<div class="layui-input-inline">
-					<select name="city" lay-verify="" lay-search="">
-						<option value="">制定人</option>
-						<option value="010">张三</option>
-						<option value="021">李四</option>
-						<option value="0571">王五</option>
+					<input type="text" class="layui-input" id="" name="returnMoney"
+						placeholder="yyyy-MM-dd">
+				</div>
+			</div>
+
+
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">退货金额</label>
+				<div class="layui-input-block">
+					<input name="returnCause" class="layui-input" type="text"
+						placeholder="" autocomplete="off">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">退货时间</label>
+				<div class="layui-input-block">
+					<input name="returnTime" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+			<div>
+				<label class="layui-form-label" style="font-size: 13px;">审核状态</label>
+				<div class="layui-input-inline">
+					<select name="returnPerpare1" lay-verify="">
+						<option value="未审核" selected="selected">未审核</option>
+						<option value="审核未通过">审核未通过</option>
+						<option value="审核通过">审核通过</option>
+						<option value="已审核">已审核</option>
 					</select>
 				</div>
-				<div class="layui-input-inline" style="margin-top: 10px;">
-					<label style="margin: 0 10px 0 20px; font-size: 13px;">备注信息</label>
-					<div class="layui-input-inline" style="margin-left: -5px;">
-						<textarea name="des" required lay-verify="required" cols="35px"
-							rows="4px" placeholder="请输入计划描述" class="layui-textarea"></textarea>
-					</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-filter="demo1" lay-submit="">立即提交</button>
+					<button class="layui-btn layui-btn-primary" type="reset">重置</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="site-text" style="margin: 5%; display: none"
+		id="addDetails" target="test123">
+		<form class="layui-form" lay-filter="formAuthority" id="formIdOne">
+
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">订单编号</label>
+				<div class="layui-input-block">
+					<input name="orderNumber" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+						<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">供应商名称</label>
+				<div class="layui-input-block">
+					<input name="returnSupplier" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+						<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">订单金额</label>
+				<div class="layui-input-block">
+					<input name="returnMoney" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">退货金额</label>
+				<div class="layui-input-block">
+					<input name="returnCause" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+						<div class="layui-inline">
+				<label class="layui-form-label" style="font-size: 13px;">退货时间</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="test1" name="returnTime"
+						placeholder="yyyy-MM-dd">
+				</div>
+			</div>
+
+			<div>
+				<label class="layui-form-label" style="font-size: 13px;">审核状态</label>
+				<div class="layui-input-inline">
+					<select name="returnPerpare1" lay-verify="">
+						<option value="未审核" selected="selected">未审核</option>
+						<option value="审核未通过">审核未通过</option>
+						<option value="审核通过">审核通过</option>
+						<option value="已审核">已审核</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+		<div class="site-text" style="margin: 5%; display: none"
+		id="addDetails2" target="test123">
+		<form class="layui-form" lay-filter="formAuthority2" id="formIdOne2">
+
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">产品名称</label>
+				<div class="layui-input-block">
+					<input name="detailsName" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label" style="font-size: 13px;">产品数量</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="" name="detailsQuantity"
+						>
+				</div>
+			</div>
+				<div class="layui-inline">
+				<label class="layui-form-label" style="font-size: 13px;">产品单价</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="" name="detailsUnitPrice"
+						>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">产品总价</label>
+				<div class="layui-input-block">
+					<input name="detailsTotalPrice" class="layui-input" type="text"
+						placeholder="" autocomplete="off">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="font-size: 13px;">退货ID</label>
+				<div class="layui-input-block">
+					<input name="returnId" class="layui-input" type="text"
+						autocomplete="off" lay-verify="required">
 				</div>
 			</div>
 		</form>
