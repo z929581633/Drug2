@@ -168,7 +168,7 @@ public class EmployeeController {
 		Employee newEmployee=new Employee(empId,empName,empSex,empAge,empUser,empPassword,empWork,inWorkTime,outWorkTime);
 		//执行
 		int back=employeebizImpl.addEmployee(newEmployee);
-		//返回结果
+		
 		return back;
 	}
 	/**
