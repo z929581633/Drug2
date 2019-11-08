@@ -10,7 +10,7 @@ import com.drug.afy.entity.sailListMessage_Afy;
  * @描述：销售biz层
  * @author 敖飞扬
  * @time   2019年11月1日
- * @return  map
+ * @return  map集合
  */
 @Repository
 public interface MaketingBiz_Afy {
