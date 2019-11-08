@@ -11,7 +11,7 @@ import com.drug.ymq.entity.StorAge;
 
 @Repository
 public interface StroAgeBiz {
-	//查询所有入库的信息
+		//查询所有入库的信息
 		public List<StorAge> getAllStorAge();
 		//删除一个入库订单信息
 		public int delStorAge(int stoId);

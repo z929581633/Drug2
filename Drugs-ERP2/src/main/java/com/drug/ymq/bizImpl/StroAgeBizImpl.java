@@ -15,25 +15,37 @@ public class StroAgeBizImpl implements StroAgeBiz{
 	@Autowired
 	private StorAgeMapper storAgeMapper;
 	
+	/**
+	 * 查询所有入库的信息
+	 */
 	@Override
 	public List<StorAge> getAllStorAge() {
 		List<StorAge> list= new ArrayList<StorAge>();
 		list = storAgeMapper.getAllStorAge();
 		return list;
 	}
-
+	
+	/**
+	   * 删除一个入库订单信息
+	 */
 	@Override
 	public int delStorAge(int stoId) {
 		int back = storAgeMapper.delStorAge(stoId);
 		return back;
 	}
-
+	
+	/**
+	   *  修改一个入库的信息
+	 */
 	@Override
 	public int changeStorAge(StorAge storAge) {
 		int back= storAgeMapper.changeStorAge(storAge);
 		return back;
 	}
-
+	
+	/**
+	   *  增加新的入库的信息
+	 */
 	@Override
 	public int addStorAge(StorAge storAge) {
 		return storAgeMapper.addStorAge(storAge);

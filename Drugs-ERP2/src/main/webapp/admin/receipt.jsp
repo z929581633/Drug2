@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="../layui/css/layui.css">
 <script src="../layui/layui.js"></script>
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
 <title>入库信息表</title>
 </head>
 <body>
@@ -268,7 +267,7 @@
 						    break;
 					  };
 				    });	
-					 //打开新增页面
+					 //打开新增页面  
 					 function openAdd(){
 						 tanIndex= layer.open({
 			   				 type:1,  //设置类型 默认为0 1 页面层 2 iframe层
@@ -291,7 +290,7 @@
 							  }		  
 			   		});
 					 }
-					 //打开修改页面
+					 //打开修改页面 
 					  function  openUpdate(data){
 						  tanIndex=layer.open({
 				   				 type:1,  //设置类型 默认为0 1 页面层 2 iframe层
