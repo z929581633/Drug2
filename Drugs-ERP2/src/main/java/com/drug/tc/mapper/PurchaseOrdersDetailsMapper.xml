@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.tc.mapper.PurchaseOrdersDetailsMapper">
+	<select id="selectAllPurchaseOrdersDetails" resultType="PurchaseOrdersDetails"
+		parameterType="Integer">
+		SELECT pod.detailsId, pod.detailsNumber,pod.detailsName,
+		pod.detailsPrice,pod.poId,pod.detailsTotal,
+		pod.perpare1,pod.perpare2,pod.perpare3
+		FROM PurchaseOrders po LEFT JOIN
+		PurchaseOrders_Details pod ON po.poId=pod.poId
+		WHERE po.poId = #{poId}
+	</select>
+	<delete id="deletePurchaseOrdersDetails" parameterType="Integer">
+		delete
+		from
+		PurchaseOrders_Details where detailsId = #{detailsId}
+	</delete>
+
+	<update id="updatePurchaseOrdersDetails" parameterType="PurchaseOrdersDetails">
+		update
+		PurchaseOrders_Details set detailsNumber = #{detailsNumber},
+		detailsName = #{detailsName},detailsPrice = #{detailsPrice},
+		poId =
+		#{poId},detailsTotal = #{detailsTotal},perpare1=#{perpare1}
+		,perpare2=#{perpare2},perpare3=#{perpare3}
+		where detailsId =
+		#{detailsId}
+	</update>
+		<insert id="addPurchaseOrdersDetails" parameterType="PurchaseOrdersDetails">
+		insert into PurchaseOrders_Details values(null,#{detailsNumber}
+		,#{detailsName},#{detailsPrice},#{poId},#{detailsTotal},
+		#{perpare1},#{perpare2},#{perpare3})
+	</insert>
+	<select id="getProduct" resultType="PurchaseOrdersDetails"
+		>
+		SELECT * from PurchaseOrders_Details
+	</select>
+</mapper>

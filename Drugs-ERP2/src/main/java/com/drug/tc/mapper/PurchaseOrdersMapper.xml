@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.tc.mapper.PurchaseOrdersMapper">
+	<select id="selectAllPurchaseOrders" resultType="PurchaseOrders">
+		select * from
+		PurchaseOrders
+	</select>
+	<delete id="deletePurchaseOrders" parameterType="Integer">
+		delete from
+		PurchaseOrders where poId = #{poId}
+	</delete>
+	<delete id="deletePurchaseOrders2" parameterType="Integer">
+		delete
+		from
+		PurchaseOrders_Details where poId = #{poId}
+	</delete>
+	<update id="updatePurchaseOrders" parameterType="PurchaseOrders">
+		update
+		PurchaseOrders set poName=#{poName},poTime=#{poTime}
+		,poPaymentStatus=#{poPaymentStatus},poAuditState=#{poAuditState}
+		,poSupplier=#{poSupplier},perpare1=#{perpare1},perpare2=#{perpare2},
+		perpare3=#{perpare3}
+		where poId = #{poId}
+	</update>
+	<insert id="addPurchaseOrders" parameterType="PurchaseOrders">
+		insert into PurchaseOrders values(#{poId},#{poName},#{poTime}
+		,#{poPaymentStatus},#{poAuditState},#{poSupplier},#{perpare1},#{perpare2},
+		#{perpare3})
+	</insert>
+</mapper>

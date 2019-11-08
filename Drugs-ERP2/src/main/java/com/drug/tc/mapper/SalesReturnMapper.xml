@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.tc.mapper.SalesReturnMapper">
+	<select id="selectAllSalesReturn" resultType="SalesReturn"
+		>
+		select * from sales_return
+	</select>
+	<delete id="deleteSalesReturn" parameterType="Integer">
+		delete
+		from
+		sales_return where returnId = #{returnId}
+	</delete>
+	<delete id="deleteSalesReturn2" parameterType="Integer">
+		delete
+		from
+		return_details where returnId = #{returnId}
+	</delete>
+	<update id="updateSalesReturn" parameterType="SalesReturn">
+		update
+		sales_return set orderNumber = #{orderNumber},
+		returnSupplier = #{returnSupplier},returnMoney = #{returnMoney},
+		returnCause =
+		#{returnCause},returnTime = #{returnTime},returnPerpare1=#{returnPerpare1}
+		,returnPerpare2=#{returnPerpare2},returnPerpare3=#{returnPerpare3}
+		where returnId =
+		#{returnId}
+	</update>
+		<insert id="addSalesReturn" parameterType="SalesReturn">
+		insert into sales_return values(null,#{orderNumber}
+		,#{returnSupplier},#{returnMoney},#{returnCause},#{returnTime},
+		#{returnPerpare1},#{returnPerpare2},#{returnPerpare3})
+	</insert>
+</mapper>

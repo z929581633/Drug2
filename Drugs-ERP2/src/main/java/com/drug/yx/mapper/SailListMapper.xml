@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.drug.yx.mapper.SailListMapper">
+
+<select id="getAllDrugs" resultType="DrugsList">
+	select * from Room r where r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
+</select>
+
+<select id="searchShopNo" parameterType="String" resultType="DrugsList">
+	select * from Room r where r.drugId=#{search} and r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
+</select>	
+	
+<insert id="newBuyList" parameterType="newBuyList">
+	<selectKey keyProperty="salId" resultType="Integer" order="AFTER">select last_insert_id() </selectKey>
+	insert into sailList VALUES(salId,1004,salType,#{salTime},#{salAllPrice},#{salPayPrice},#{salGetMoney},#{salChangePrice},#{salVIPNo},salOtherOne,salOtherTwo)
+</insert>	
+
+<insert id="NewBuyListMessage" parameterType="NewBuyListMessage">
+	insert into sailListMessage VALUES(slmId,#{salId},#{slmDrugId},#{slmDrugName},#{slmDrugPrice},#{slmDrugNumber},#{slmDrugTotlePrice},slmOtherOne,slmOtherOne)
+</insert>
+
+<select id="getDrugNumber" parameterType="Integer" resultType="Integer">
+	select r.drugInRoomNumber from Room r where r.drugId=#{buyDrugId} ORDER BY r.drugId ASC
+</select>
+
+<update id="changeDrugNumber" parameterType="Map">
+	UPDATE Room r set r.drugInRoomNumber=r.drugInRoomNumber-#{buyNumber} where r.drugId=#{buyDrugId}
+</update>
+
+</mapper>

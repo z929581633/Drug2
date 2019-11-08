@@ -21,11 +21,11 @@
 	<script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container" style="padding-left:20px;">
     <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="getCheckData"><i class="layui-icon layui-icon-add-1"></i>新增员工 </button>
+	<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="historyEmployee"><i class="layui-icon layui-icon-form"></i>离职员工</button>
   </div>
 	
 </script>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">权限管理</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -36,39 +36,39 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   var table = layui.table;
   var laydate = layui.laydate;
   var form = layui.form;
-  var tree = layui.tree
-  ,layer = layui.layer
-  ,util = layui.util
+  var tree = layui.tree,
+  layer = layui.layer,
+  util = layui.util
 //模拟数据
   ,data = [{
-    title: 'ALL'
-    ,id: 2
-    ,spread: true
-    ,children: [{
-      title: '系统信息管理'
-      ,id: 5
-      ,spread: true
-      ,children: [{
-        title: '员工管理'
-        ,id: 11
-        ,spread: true
-        ,children: [{
-            title: '新增'
-            ,id: 11
+    title: 'ALL',
+    id: 2,
+    spread: true,
+    children: [{
+      title: '系统信息管理',
+      id: 5,
+      spread: true,
+      children: [{
+        title: '员工管理',
+        id: 11,
+        spread: true,
+        children: [{
+            title: '新增',
+            id: 11
           },{
-        	  title:'删除'
-        	  ,id:22
+        	  title:'删除',
+        	  id:22
           }]
       },{
-          title: '部门管理'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
+          title: '部门管理',
+          id: 11,
+          spread: true,
+          children: [{
+                  title: '新增',
+                  id: 11
                 },{
-              	  title:'删除'
-              	  ,id:22
+              	  title:'删除',
+              	  id:22
                 }]
             }]
     },{
@@ -107,12 +107,12 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   
 	//基本演示
   tree.render({
-    elem: '#test12'
-    ,data: data
-    ,showCheckbox: true  //是否显示复选框
-    ,id: 'demoId1'
-    ,isJump: true //是否允许点击节点时弹出新窗口跳转
-    ,click: function(obj){
+    elem: '#test12',
+    data: data,
+    showCheckbox: true ,  //是否显示复选框
+    id: 'demoId1',
+    isJump: true , //是否允许点击节点时弹出新窗口跳转
+    click: function(obj){
       var data = obj.data;  //获取当前点击的节点数据
       layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
     }
@@ -140,30 +140,10 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   laydate.render({
 	  elem:'#date'
   });
-  
 //监听工具条
   table.on('tool(test)', function(obj){
     var data = obj.data;
-    if(obj.event === 'detail'){
-    	layer.open({
-			title : '权限管理',//标题
-			type : 1,//样式
-			shade: 0,
-			area: ['350px', '500px'],
-			content :$("#test12"),
-			
-			success : function(layero) {
-				var mask = $(".layui-layer-shade");
-				mask.appendTo(layero.parent());
-				//其中：layero是弹层的DOM对象
-			},
-			end : function() {
-				
-			}
-		});
-		
-		
-	} else if(obj.event === 'del'){
+    if(obj.event === 'del'){
       layer.confirm('确认删除该员工？', function(index){
         $.ajax({
         	url:'../delEmployee.do',
@@ -171,6 +151,7 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
         	success:function(getBack){
         		if(getBack==1){
         			table.reload('test');
+        			table.reload('historyEmployeeList');
         			layer.alert("success");
         			layer.close(index);
         		}else{
@@ -256,10 +237,71 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
 				content :$("#branch"),
 			});
 			break;
+			
+		case 'historyEmployee':
+			$("#historyEmployee")[0].reset();
+			var index = layer.open({
+				title : '历史员工',//标题
+				type : 1,//样式
+				shade: 0,
+				area:['800px','560px'],
+				offset: ['0', '0'],//设置位移
+				btn: ['关闭'],
+				yes: function(index, layero){
+					layer.close(index);
+				},content :$("#testHisEmployee"),
+			});
+			break;
 		};
 	});
 });
 </script>
+<script>
+layui.use(['table','layer','jquery'], function(){
+	  var table = layui.table;
+	  var layer=layui.layer;
+	  var $ = layui.jquery;
+	  var index=table.render({
+		    elem:'#historyEmployeeList',
+		   	url:'../getHistoryEmployee.do',
+		    cols: [[
+		    	{field:'empId', title:'员工号',width:80},
+		    	{field:'empName', title:'姓名',width:110},
+		    	{field:'empSex', title:'性别',width:80},
+		    	{field:'empAge', title:'年龄',width:80},
+		    	{field:'inWorkTime', title:'入职时间',width:180},
+		    	{field:'outWorkTime', title:'离职时间',width:180}
+		    ]],
+		    page: true
+		  });
+	  $(function(){
+			$("#beginSearch").click(function(){
+				var findId=$("#findEmpId").val();
+				var findName=$("#findEmpName").val();
+				table.reload('historyEmployeeList',{
+					url:'../getHistoryEmployee.do',
+					where:{
+						id:findId,
+						name:findName
+					}
+				});
+				/* $.ajax({
+					url:'../getHistoryEmployee.do',
+					data:"id="+findId+"&name="+findName,
+					success:function(getBack){
+						if(getBack==0){
+							$("#searchShopNo").val("");
+							table.reload('buyList');
+						}else if(getBack==1){
+							layer.msg('查无此货');
+						}
+					}
+				}); */
+			});
+		});
+});
+</script>
+<!-- 在职员工 -->
 		<div id="test12" class="demo-tree-more" style="display:none;"></div>
 		<div class="site-text" style="margin: 5%; display: none" id="branch" target="test123">
 		<form class="layui-form" lay-filter="formAuthority" id="newEmployee">
@@ -320,6 +362,25 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
 			<input type="hidden" name="outWorkTime" class="layui-input">
 			</form>
 		</div>
+
+<!-- 离职员工 -->
+<div class="site-text" style="margin: 5%; display: none" id="testHisEmployee" target="testHisEmployee">
+	<h2 align="center"><b>离职员工</b></h2>
+		<form class="layui-form layui-form-pane" lay-filter="historyEmployee" id="historyEmployee">
+      		<div class="demoTable">
+  				<div class="layui-inline">
+    				<input class="layui-input" name="findEmpId" id="findEmpId" placeholder="在此输入员工号" style="width:200px;"  autocomplete="off">
+  				</div>
+  				<div class="layui-inline">
+    				<input class="layui-input" name="findEmpName" id="findEmpName" placeholder="在此输入员工姓名" style="width:200px;"  autocomplete="off">
+  				</div>
+  				<button type="button" id="beginSearch" class="layui-btn layui-btn-normal" style="width:90px;">Search</button>
+			</div>
+			<div class="historyList">
+				<table class="layui-table" id="historyEmployeeList" lay-data="{id:'historyEmployeeList'}" lay-filter="historyEmployeeList"></table>
+			</div>
+		</form>
+	</div>
 
 </body>
 </html>

@@ -20,7 +20,16 @@
 	where e.empId=#{empId};
 </update>	
 	
+<select id="getAllHistoryEmployee" resultType="Employee">
+	select * from Employee e where e.onLineType=0 and e.outWorkTime is not null
+</select>	
 	
-	
-	
+<select id="findEmployeeById" parameterType="String" resultType="Employee">
+	select * from Employee e where e.onLineType=0 and e.empId=#{id}
+</select>	
+
+<select id="findEmployeeByName" parameterType="String" resultType="Employee">
+	select * from Employee e where e.onLineType=0 and e.empName like '%#{name}%'
+</select>	
+
 </mapper>
