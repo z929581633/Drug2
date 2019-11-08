@@ -16,6 +16,7 @@ import com.drug.ljw.entity.OutBound;
 public class OutBoundController {
 	@Autowired
 	private OutBoundBizImpl outBoundBizImpl;
+	
 	@RequestMapping("/getAllOutBound.do")
 	public Map<String, Object> getAllOutBound(int page){
 		//创建集合
