@@ -18,7 +18,7 @@ import com.drug.yx.entity.Employee;
  * 
  * @author 杨旭
  * @dataTime:2019年11月7日下午3:39:27
- * Description:员工基本权限控制层
+ * Description:员工基本权限
  */
 @Controller
 public class EmployeeController {
