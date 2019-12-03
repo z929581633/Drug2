@@ -93,7 +93,7 @@
     	background: white;
     	width:250px;
 	}
-	/*左上导航颜色*/
+	/*左上角导航颜色*/
 	.layui-side-scroll {
     	background: white;
 	}
