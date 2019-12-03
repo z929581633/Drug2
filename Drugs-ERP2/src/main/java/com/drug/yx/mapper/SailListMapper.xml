@@ -27,4 +27,12 @@
 	UPDATE Room r set r.drugInRoomNumber=r.drugInRoomNumber-#{buyNumber} where r.drugId=#{buyDrugId}
 </update>
 
+<select id="getSailListNumber" resultType="Integer">
+	select COUNT(*) from sailList
+</select>
+
+<select id="getAllSailList" resultType="SailList" parameterType="Map">
+	select * from sailList LIMIT #{page},#{limit}
+</select>
+
 </mapper>

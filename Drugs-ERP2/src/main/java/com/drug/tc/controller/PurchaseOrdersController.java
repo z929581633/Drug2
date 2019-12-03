@@ -28,9 +28,7 @@ public class PurchaseOrdersController {
 	public @ResponseBody Map<String,Object> selectAllPurchaseOrders(){
 		List<PurchaseOrders> list = purchaseOrdersBiz.selectAllPurchaseOrders();
 		Map<String,Object> map = new HashMap<String,Object>();
-		System.out.println("采购订单");
 		map.put("code", 0);
-		System.out.println("长度:"+list.size());
 		map.put("count", list.size());
 		map.put("data", list);
 		return map;

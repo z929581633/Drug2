@@ -19,12 +19,13 @@ import com.drug.yx.entity.BuyList;
 import com.drug.yx.entity.DrugsList;
 import com.drug.yx.entity.NewBuyList;
 import com.drug.yx.entity.NewBuyListMessage;
+import com.drug.yx.entity.SailList;
 
 /**
  * 
  * @author 杨旭
  * @dataTime:2019年11月7日下午4:13:30
- * Description:分店销售控制层，
+ * Description:分店销售控制层
  */
 @Controller
 public class SallController {
@@ -314,7 +315,7 @@ public class SallController {
 			int roomNumber=sailListBiz.getDrugNumber(buyDrugId);
 			//如果库存不足，则提示不能完成交易
 			if(roomNumber<list.get(i).getBuyDrugNumber()){
-				//返回结果2
+				//返回结果1
 				return 1;
 			}
 			//如果库存充足，则减少库存
@@ -376,6 +377,31 @@ public class SallController {
 		session.removeAttribute("buyList");
 		//最后返回找零
 		return payMoney-allPrice;
+	}
+	
+	@RequestMapping("/getAllSailChange.do")
+	@ResponseBody
+	public Map<String, Object> getAllSailChange(int page,int limit){
+		//计算出当前页
+		int page0=(page-1)*limit;
+		//
+		Map<String,Object> map=new HashMap<String,Object>();
+		//放置当前页
+		map.put("page", page0);
+		//放置每页拿取的数据
+		map.put("limit", limit);
+		//定义一个集合
+		List<SailList> list=new ArrayList<SailList>();
+		//获取分页后的所有销售记录
+		list=sailListBiz.getAllSailList(map);
+		//判断总数据行数是否存在
+		
+		
+		map.put("code", 0);
+		map.put("data", list);
+		map.put("count", list.size());
+		//将所有的销售记录返回前台
+		return map;
 	}
 	
 }

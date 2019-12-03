@@ -1,5 +1,6 @@
 package com.drug.yx.bizImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import com.drug.yx.biz.SailListBiz;
 import com.drug.yx.entity.DrugsList;
 import com.drug.yx.entity.NewBuyList;
 import com.drug.yx.entity.NewBuyListMessage;
+import com.drug.yx.entity.SailList;
 import com.drug.yx.mapper.SailListMapper;
 
 @Service
@@ -52,6 +54,12 @@ public class SailListBizImpl implements SailListBiz{
 	public Integer NewBuyListMessage(NewBuyListMessage newBuyListMessage) {
 		int back=sailListMapper.NewBuyListMessage(newBuyListMessage);
 		return back;
+	}
+
+	@Override
+	public List<SailList> getAllSailList(Map<String ,Object> map) {
+		List<SailList> list=sailListMapper.getAllSailList(map);
+		return list;
 	}
 
 	

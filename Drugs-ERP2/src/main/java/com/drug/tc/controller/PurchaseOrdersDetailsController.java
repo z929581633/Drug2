@@ -31,10 +31,8 @@ public class PurchaseOrdersDetailsController {
 		PurchaseOrdersDetails pod = new PurchaseOrdersDetails();
 		List<PurchaseOrdersDetails> list = podb.selectAllPurchaseOrdersDetails(poId);
 		Map<String,Object> map = new HashMap<String,Object>();
-		System.out.println("采购订单详情list"+list);
 		map.put("poId", 1);
 		map.put("code", 0);
-		System.out.println("长度:"+list.size());
 		map.put("count", list.size());
 		map.put("data", list);
 		return map;

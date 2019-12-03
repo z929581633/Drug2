@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.drug.yx.entity.DrugsList;
 import com.drug.yx.entity.NewBuyList;
 import com.drug.yx.entity.NewBuyListMessage;
+import com.drug.yx.entity.SailList;
 
 @Repository
 public interface SailListBiz {
@@ -30,4 +31,7 @@ public interface SailListBiz {
 	
 	//新增商品销售详情单
 	public Integer NewBuyListMessage(NewBuyListMessage newBuyListMessage);
+	
+	//获取所有销售记录
+	public List<SailList> getAllSailList(Map<String ,Object> map);
 }
