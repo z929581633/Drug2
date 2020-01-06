@@ -140,7 +140,7 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   laydate.render({
 	  elem:'#date'
   });
-//监听工具条
+//监听工具条1.0
   table.on('tool(test)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
