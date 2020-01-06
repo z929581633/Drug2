@@ -72,30 +72,30 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
                 }]
             }]
     },{
-        title: '采购管理'
-            ,id: 5
-            ,spread: true
-            ,children: [{
-              title: '采购申请'
-              ,id: 11
-              ,spread: true
-              ,children: [{
-                  title: '新增'
-                  ,id: 11
+        title: '采购管理',
+        id: 5,
+        spread: true,
+        children: [{
+              title: '采购申请',
+              id: 11,
+              spread: true,
+              children: [{
+                  title: '新增',
+                  id: 11
                 },{
-              	  title:'删除'
-              	  ,id:22
+              	  title:'删除',
+              	  id:22
                 }]
             },{
-                title: '采购计划'
-                    ,id: 11
-                    ,spread: true
-                    ,children: [{
-                        title: '新增'
-                        ,id: 11
+                title: '采购计划',
+                id: 11,
+                spread: true,
+                children: [{
+                        title: '新增',
+                        id: 11
                       },{
-                    	  title:'删除'
-                    	  ,id:22
+                    	  title:'删除',
+                    	  id:22
                       }]
                   }]
           }]
@@ -144,7 +144,7 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
   table.on('tool(test)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
-      layer.confirm('确认删除该员工？', function(index){
+      layer.confirm('请确认该员工已离职或辞退！', function(index){
         $.ajax({
         	url:'../delEmployee.do',
         	data:'empId='+data.empId,
@@ -168,7 +168,7 @@ layui.use(['table','laydate','form','tree', 'util','layer'], function(){
 			title : '编辑员工',//标题
 			type : 1,//样式
 			shade: 0,
-			offset: ['20%', '20%'],//设置位移
+			offset: ['10%', '20%'],//设置位移
 			btn: ['确认', '取消'],
 			yes: function(index, layero){
 				var employee=$("#newEmployee").serialize();

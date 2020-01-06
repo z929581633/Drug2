@@ -21,10 +21,10 @@
   <button class="layui-btn" data-type="reload">搜索</button>
 </div>
 
-<table class="layui-hide" id="test"></table>
+<table class="layui-hide" id="test" lay-filter="test"></table>
 <!--  -->
 <script id="barDemo" type="text/html">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">详情</a>
+  <a class="layui-btn layui-btn-xs" lay-event="message">详情</a>
 </script>
               
           
@@ -52,6 +52,13 @@ layui.use('table', function (){
     	{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'9%'}
     ]],
     page: true,
+  });
+  //监听工具条
+  table.on('tool(test)',function(obj){
+	  var data=obj.data;
+	  if(obj.event==='message'){
+		  layer.alert(data.salId);
+	  }
   });
 		});
 </script>

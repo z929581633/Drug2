@@ -93,7 +93,6 @@ layui.use(['table','layer','jquery'], function(){
   	    				}else if(getBack==1){
   	    					layer.msg("库存不足！！");
   	    				}else{
-  	    					
   	    					layer.alert("找零"+getBack+"元。");//提示找零
   	    					table.reload('test');//重载销售页面
   	    					table.reload('buyList');
