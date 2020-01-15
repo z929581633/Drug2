@@ -385,8 +385,8 @@ public class SallController {
 	 * @param page
 	 * @param limit
 	 * @return-Map<String,Object>
-	 * @need:
-	 * Description:
+	 * @need:当前页、limit数据
+	 * Description:根据当前页面、每页显示数据，获取分页后的数据
 	 */
 	@RequestMapping("/getAllSailChange.do")
 	@ResponseBody
