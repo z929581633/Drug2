@@ -411,23 +411,37 @@ public class SallController {
 		return map;
 	}
 	
-	
+	/**
+	 * 
+	 * @param sailId
+	 * @return-Map<String,Object>
+	 * @need:查询的销售单id
+	 * Description:根据前台传输的销售单号查出所属的详情并返回给前台
+	 */
 	@RequestMapping("/findSailMessage.do")
 	@ResponseBody
 	public Map<String, Object> findSailMessage(String sailId){
+		//定义转换i单号
 		int salId=0;
+		//定义回调集合
 		List<SailMessage> list=new ArrayList<SailMessage>();
+		//定义返回map集合
 		Map<String ,Object> map=new HashMap<String ,Object>();
+		//判断，是否为恶意空值
 		if("".equals(sailId.trim())){
+			//如果是，则赋予初始值
 			salId=0000;
 		}else{
+			//如果不是，则进行转换
 			salId=Integer.parseInt(sailId);
 		}
-		list=sailListBiz.findSailMessage(1000);
-		
+		//调用biz层，获得结果集合
+		list=sailListBiz.findSailMessage(salId);
+		//map集合放值数据
 		map.put("code", 0);
 		map.put("data", list);
 		map.put("count",0);
+		//返回map
 		return map;
 	}
 	
