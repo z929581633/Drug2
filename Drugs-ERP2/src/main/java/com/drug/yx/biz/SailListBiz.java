@@ -9,6 +9,7 @@ import com.drug.yx.entity.DrugsList;
 import com.drug.yx.entity.NewBuyList;
 import com.drug.yx.entity.NewBuyListMessage;
 import com.drug.yx.entity.SailList;
+import com.drug.yx.entity.SailMessage;
 
 @Repository
 public interface SailListBiz {
@@ -34,4 +35,7 @@ public interface SailListBiz {
 	
 	//获取所有销售记录
 	public List<SailList> getAllSailList(Map<String ,Object> map);
+	
+	//查询某条销售订单的详情
+	public List<SailMessage> findSailMessage(Integer salId);
 }

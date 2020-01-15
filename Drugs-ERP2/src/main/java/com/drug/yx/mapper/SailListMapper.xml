@@ -35,4 +35,8 @@
 	select * from sailList LIMIT #{page},#{limit}
 </select>
 
+<select id="findSailMessage" resultType="SailMessage" parameterType="Integer">
+	select * from sailListMessage s where s.salId=#{salId} ORDER BY s.slmDrugId ASC
+</select>
+
 </mapper>

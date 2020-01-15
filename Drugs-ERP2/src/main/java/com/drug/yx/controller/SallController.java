@@ -20,6 +20,7 @@ import com.drug.yx.entity.DrugsList;
 import com.drug.yx.entity.NewBuyList;
 import com.drug.yx.entity.NewBuyListMessage;
 import com.drug.yx.entity.SailList;
+import com.drug.yx.entity.SailMessage;
 
 /**
  * 
@@ -379,6 +380,14 @@ public class SallController {
 		return payMoney-allPrice;
 	}
 	
+	/**
+	 * 
+	 * @param page
+	 * @param limit
+	 * @return-Map<String,Object>
+	 * @need:
+	 * Description:
+	 */
 	@RequestMapping("/getAllSailChange.do")
 	@ResponseBody
 	public Map<String, Object> getAllSailChange(int page,int limit){
@@ -395,13 +404,32 @@ public class SallController {
 		//获取分页后的所有销售记录
 		list=sailListBiz.getAllSailList(map);
 		//判断总数据行数是否存在
-		
-		
 		map.put("code", 0);
 		map.put("data", list);
 		map.put("count", list.size());
 		//将所有的销售记录返回前台
 		return map;
 	}
+	
+	
+	@RequestMapping("/findSailMessage.do")
+	@ResponseBody
+	public Map<String, Object> findSailMessage(String sailId){
+		int salId=0;
+		List<SailMessage> list=new ArrayList<SailMessage>();
+		Map<String ,Object> map=new HashMap<String ,Object>();
+		if("".equals(sailId.trim())){
+			salId=0000;
+		}else{
+			salId=Integer.parseInt(sailId);
+		}
+		list=sailListBiz.findSailMessage(1000);
+		
+		map.put("code", 0);
+		map.put("data", list);
+		map.put("count",0);
+		return map;
+	}
+	
 	
 }
