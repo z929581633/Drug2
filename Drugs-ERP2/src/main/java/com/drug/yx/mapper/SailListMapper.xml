@@ -3,11 +3,13 @@
 <mapper namespace="com.drug.yx.mapper.SailListMapper">
 
 <select id="getAllDrugs" resultType="DrugsList">
-	select * from Room r where r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
+	select r.drugId,r.drugName,r.drugtype,r.drugDesc,r.drugOutRoomPrice,r.drugInRoomNumber  
+	from Room r where r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
 </select>
 
 <select id="searchShopNo" parameterType="String" resultType="DrugsList">
-	select * from Room r where r.drugId=#{search} and r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
+	select r.drugId,r.drugName,r.drugtype,r.drugDesc,r.drugOutRoomPrice,r.drugInRoomNumber  
+	from Room r where r.drugId=#{search} and r.onLineType=1 and r.drugInRoomNumber>0 ORDER BY r.drugId ASC
 </select>	
 	
 <insert id="newBuyList" parameterType="newBuyList">
@@ -32,11 +34,13 @@
 </select>
 
 <select id="getAllSailList" resultType="SailList" parameterType="Map">
-	select * from sailList LIMIT #{page},#{limit}
+	select sl.salId,sl.empId,sl.salType,sl.salTime,sl.salAllPrice,sl.salPayprice,sl.salGetMoney,sl.salChangePrice,sl.salVIPNo,sl.salOtherOne,sl.salOtherTwo  
+	from sailList sl LIMIT #{page},#{limit}
 </select>
 
 <select id="findSailMessage" resultType="SailMessage" parameterType="Integer">
-	select * from sailListMessage s where s.salId=#{salId} ORDER BY s.slmDrugId ASC
+	select s.slmId,s.salId,s.slmDrugId,s.slmDrugName,s.slmDrugPrice,s.slmDrugNumber,s.slmDrugTotlePrice,s.slmOtherOne,s.slmOtherTwo 
+	from sailListMessage s where s.salId=#{salId} ORDER BY s.slmId ASC
 </select>
 
 </mapper>

@@ -307,9 +307,9 @@ layui.use(['table','layer','jquery'], function(){
 		<form class="layui-form" lay-filter="formAuthority" id="newEmployee">
 			<input type="hidden" name="empId" class="layui-input">
 			<div class="layui-input-inline">
-				<label style="margin:0 10px 0 20px;font-size:13px;">员工姓名</label>
+				<label style="margin:0 10px 0 20px;font-size:13px;">员工编号</label>
 				<div class="layui-input-inline">
-      				<input type="text" name="empId" lay-verify="required" placeholder="请输入员工的编号" autocomplete="off" class="layui-input">
+      				<input type="text" name="empId" readonly="true" placeholder="此处只读" autocomplete="off" class="layui-input">
     			</div>
 			</div>
 			<div class="layui-input-inline">

@@ -73,7 +73,7 @@ layui.use(['table','layer','jquery'], function (){
 			  title:'订单号'+data.salId,
 			  shade:0,
 			  offset:['0px','50px'],
-			  area:['700px','500px'],
+			  area:['800px','430px'],
 			  btn:['关闭'],
 			  yes:function(index){
 				  layer.close(index);
@@ -87,12 +87,12 @@ layui.use(['table','layer','jquery'], function (){
 			  sailId:data.salId
 		  },
 		  cols:[[
-			  {field:'slmId', title: '详情单号', width: '9%'},
-			  {field:'salId', title: '订单号', width: '14%'},
-			  {field:'slmDrugId', title: '商品码', width: '20%'},
-			  {field:'slmDrugName', title: '商品名', width: '25%'},
-			  {field:'slmDrugPrice', title: '商品单价', width: '9%'},
-			  {field:'slmDrugNumber', title: '购买数量', width: '15%'},
+			  {field:'slmId', title: '详情号', width: '12%'},
+			  {field:'salId', title: '订单号', width: '12%'},
+			  {field:'slmDrugId', title: '商品码', width: '21%'},
+			  {field:'slmDrugName', title: '商品名', width: '26.5%'},
+			  {field:'slmDrugPrice', title: '单价', width: '11%'},
+			  {field:'slmDrugNumber', title: '购量', width: '9%'},
 			  {field:'slmDrugTotlePrice', title: '小计', width: '9%'}
 		  ]],
 		  page:false,

@@ -3,7 +3,8 @@
 <mapper namespace="com.drug.yx.mapper.EmployeeMapper">
 
 <select id="getAllEmployee" resultType="Employee">
-	select * from employee e where e.empWork !='店长' and e.onLineType=1 
+	select e.empId,e.empName,e.empSex,e.empAge,e.empUser,e.empPassword,e.empWork,e.inWorkTime,e.outWorkTime 
+	from employee e where e.empWork !='店长' and e.onLineType=1 ORDER BY e.empId asc 
 </select>
 
 <update id="delEmployee" parameterType="Map">
@@ -21,15 +22,18 @@
 </update>	
 	
 <select id="getAllHistoryEmployee" resultType="Employee">
-	select * from Employee e where e.onLineType=0 and e.outWorkTime is not null
+	select e.empId,e.empName,e.empSex,e.empAge,e.empUser,e.empPassword,e.empWork,e.inWorkTime,e.outWorkTime  
+	from Employee e where e.onLineType=0 and e.outWorkTime is not null ORDER BY e.empId asc 
 </select>	
 	
 <select id="findEmployeeById" parameterType="String" resultType="Employee">
-	select * from Employee e where e.onLineType=0 and e.empId=#{id}
+	select e.empId,e.empName,e.empSex,e.empAge,e.empUser,e.empPassword,e.empWork,e.inWorkTime,e.outWorkTime  
+	from Employee e where e.onLineType=0 and e.empId=#{id} ORDER BY e.empId asc 
 </select>	
 
 <select id="findEmployeeByName" parameterType="String" resultType="Employee">
-	select * from Employee e where e.onLineType=0 and e.empName like '%#{name}%'
+	select e.empId,e.empName,e.empSex,e.empAge,e.empUser,e.empPassword,e.empWork,e.inWorkTime,e.outWorkTime  
+	from Employee e where e.onLineType=0 and e.empName like "%"#{name}"%" ORDER BY e.empId asc 
 </select>	
 
 </mapper>

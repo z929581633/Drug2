@@ -256,15 +256,15 @@ public class EmployeeController {
 		//定义分页后的历史员工集合
 		List<Employee> list0=new ArrayList<Employee>();
 		//如果查询框的值都为空
-		if(id==null&&name==null){
+		if(id==null&&name==null||"".equals(id.trim())&&"".equals(name.trim())){
 			//进入全查
 			list=employeebizImpl.getAllHistoryEmployee();
 		//如果查询员工号不为空
-		}else if(id!=null){
+		}else if("".equals(name.trim())){
 			//进入根据员工号查询
 			list=employeebizImpl.findEmployeeById(id);
 		//如果查询姓名不为空	
-		}else if(name!=null){
+		}else if("".equals(id.trim())){
 			//进入员工姓名查询
 			list=employeebizImpl.findEmployeeByName(name);
 		}

@@ -393,7 +393,7 @@ public class SallController {
 	public Map<String, Object> getAllSailChange(int page,int limit){
 		//计算出当前页
 		int page0=(page-1)*limit;
-		//
+		//初始化map集合
 		Map<String,Object> map=new HashMap<String,Object>();
 		//放置当前页
 		map.put("page", page0);
