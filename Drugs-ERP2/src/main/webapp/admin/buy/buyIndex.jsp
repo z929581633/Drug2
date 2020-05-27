@@ -82,7 +82,7 @@
 					table.render({
 						elem : '#test',
 						url : '../../getAllDrugList.do',
-						toolbar : '#toolbarDemo',
+						toolbar : '#barDemo',
 						title : '用户数据表',
 						cols : [ [ {
 							type : 'checkbox',
