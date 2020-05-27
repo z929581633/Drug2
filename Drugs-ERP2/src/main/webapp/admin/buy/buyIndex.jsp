@@ -81,45 +81,33 @@
 					});
 					table.render({
 						elem : '#test',
-						url : '../../selectAllPurchaseOrders.do',
+						url : '../../getAllDrugList.do',
 						toolbar : '#toolbarDemo',
 						title : '用户数据表',
 						cols : [ [ {
 							type : 'checkbox',
 							fixed : 'left'
 						}, {
-							field : 'poId',
-							title : '采购订单号',
+							field : 'proId',
+							title : '药品编号',
 							unresize : true
 						}, {
-							field : 'poName',
-							title : '采购人',
+							field : 'pro_name',
+							title : '药品名称',
 							unresize : true
 						}, {
-							field : 'poTime',
-							title : '采购时间',
+							field : 'pro_drugType',
+							title : '药品类型',
 							unresize : true
 						}, {
-							field : 'poPaymentStatus',
-							title : '付款状态',
+							field : 'pro_drugPrice',
+							title : '单价',
 							unresize : true
 						}, {
-							field : 'poAuditState',
-							title : '审核状态',
+							field : 'pro_drugRoomNumber',
+							title : '库存',
 							unresize : true
 						},{
-							field : 'poSupplier',
-							title : '供应商',
-							unresize : true
-						}, {
-							field : 'perpare1',
-							title : '采购状态',
-							unresize : true
-						}, {
-							field : 'perpare2',
-							title : '入库状态',
-							unresize : true
-						}, {
 							fixed : 'right',
 							width : 178,
 							align : 'center',

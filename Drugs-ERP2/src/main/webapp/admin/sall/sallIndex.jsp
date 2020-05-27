@@ -69,7 +69,7 @@ layui.use(['table','layer','jquery'], function(){
       case 'add':
     	$("#allPrice").attr("value",0);//重置总价
 		$("#payMoney").val("0");//重置支付金额
-    	$("#newBuyList")[0].reset();
+    	$("#newBuyList")[0].reset();//表格初始化
   	    var index=layer.open({
   	    	type: 1, 
   	    	title:'详细信息',
